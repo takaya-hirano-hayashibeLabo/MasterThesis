@@ -57,3 +57,5 @@ latexmk main
   - ⅠとかⅤとか
 - 序論～参考文献(=最後)まで普通の数字
   - 1とか5とか
+- アルゴリズム
+  - 必要に応じて　（使い方は次を参照　https://tug.ctan.org/macros/latex/contrib/algorithmicx/algorithmicx.pdf）

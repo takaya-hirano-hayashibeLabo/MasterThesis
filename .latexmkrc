@@ -1,6 +1,6 @@
 $pvc_view_file_via_temporary = 0;  # PDFを直接開く
 $pdf_mode = 3; # dvipdfmx を使用して PDF を生成
-$latex = 'platex -output-directory=build %O %S';
+$latex = 'platex -output-directory=build --shell-escape %O %S';
 $dvipdf = 'dvipdfmx -o %D %S';
 $out_dir = '';
 $aux_dir = 'build';

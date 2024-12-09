@@ -1,0 +1,142 @@
+\documentclass[a4paper,12pt,twoside,dvipdfmx]{jreport} % A4 用紙，12pt フォント
+
+% =========================== use package ================================== %
+\usepackage[inner=25mm,outer=25mm,top=40mm,bottom=25mm]{geometry} % 余白の設定
+\usepackage{titlesec} % 章タイトルのフォーマット
+\usepackage{fancyhdr} % ヘッダーとフッターの設定
+\usepackage{pdfpages} %pdf追加用
+
+\usepackage[japanese]{babel} % 参考文献の表示を「参考文献」にする
+
+\renewcommand{\baselinestretch}{1.2} % 行間を1.2倍に設定
+
+% svgをダイレクトに入れられるようにする
+\usepackage{svg} 
+
+% 図をmatrix形式で表示するためのパッケージ
+\usepackage{tabularx} % プリアンブルに追加
+\usepackage{array} % プリアンブルに追加
+
+\usepackage{amsmath} % 数式を綺麗に表示するためのパッケージ
+\usepackage{bm} % 太文字
+% ========================================================================== %
+
+
+% ============================ 独自コマンドの定義 ===========================%
+\newcommand{\figref}[1]{Fig. \ref{#1}}
+\newcommand{\tabref}[1]{Table. \ref{#1}}
+\newcommand{\eqrefc}[1]{Eq. \ref{#1}}
+% ========================================================================= %
+
+
+% ============================ header & footer ============================ %
+\pagestyle{fancy}
+\fancyhf{}
+% 偶数ページの設定
+\fancyhead[LE]{\leftmark} % 左ヘッダに章名
+\fancyhead[CE]{}
+\fancyhead[RE]{}
+\fancyfoot[CE]{\thepage}
+
+% 奇数ページの設定
+\fancyhead[LO]{\rightmark} % 左ヘッダに節名
+\fancyhead[CO]{}
+\fancyhead[RO]{}
+\fancyfoot[CO]{\thepage}
+% ========================================================================== %
+
+
+% ========================================================================== %
+% 章タイトルを中央揃えに設定し、「第1章」の形式にする
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\centering} % フォントスタイルと中央揃え
+{第\arabic{chapter}章}{20pt}{\Huge}
+% ========================================================================== %
+
+
+% ================================= title ================================== %
+% \title{LaTeXでの文書作成入門ああああ}
+% \author{おなまえたろう}
+% \date{\today}
+% ========================================================================== %
+
+
+% ================================ document ================================ %
+\begin{document}
+
+
+% 表紙pdfの挿入
+\includepdf[pages=-,fitpaper=true]{Other/hyoshi.pdf}
+\cleardoublepage
+
+
+% タイトル
+\begin{titlepage}
+    \begin{center}
+  
+        {\fontsize{24pt}{24pt}\selectfont  修士学位論文}
+  
+        \vspace{3cm}
+  
+        {\fontsize{20pt}{20pt}\selectfont \textbf{膜電位ダイナミクス安定化による}}
+
+        \vspace{0.5cm}
+        {\fontsize{20pt}{20pt}\selectfont \textbf{Spiking Neural Networkの}}
+
+        \vspace{0.5cm}
+        {\fontsize{20pt}{20pt}\selectfont \textbf{入力時系列変化に対する頑健性の向上}}
+
+        \vspace{8cm}
+        {\fontsize{18pt}{18pt}\selectfont 令和6年度} 
+
+        \vspace{0.5cm}
+        {\fontsize{18pt}{18pt}\selectfont (令和7年?月??日 提出)} 
+  
+        \vspace{3cm}
+        {\fontsize{18pt}{18pt}\selectfont 東北大学大学院工学研究科}
+
+        \vspace{0.5cm}
+        {\fontsize{18pt}{18pt}\selectfont ロボティクス専攻}
+  
+  
+        \vspace{1.0cm}
+        {\fontsize{18pt}{18pt}\selectfont 平野 貴也}
+  
+  
+    \end{center}
+  \end{titlepage}
+\cleardoublepage
+
+
+% 英語アブスト
+\input{Other/abstract} %abstract追加
+\cleardoublepage
+
+
+% 目次
+\pagenumbering{roman} % ページ番号をローマ数字に設定
+\setcounter{page}{1}
+\tableofcontents % 目次を生成
+\listoffigures %図目次
+\listoftables %表目次
+
+
+% 本文
+\input{Chapter1/Chapter1.tex}
+\input{Chapter2/Chapter2.tex}
+\input{Chapter3/Chapter3.tex}
+% \input{Chapter4/Chapter4.tex}
+% \input{Chapter5/Chapter5.tex}
+
+
+% 謝辞
+\input{Other/thanks}
+
+
+% 参考文献
+\bibliographystyle{plain}
+\bibliography{ref}
+
+
+\end{document}
+% ========================================================================== %

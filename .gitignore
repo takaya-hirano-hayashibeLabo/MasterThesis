@@ -1,0 +1,4 @@
+build
+*.dvi
+main.pdf
+svg-inkscape

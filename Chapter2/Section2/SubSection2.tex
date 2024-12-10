@@ -1,0 +1,94 @@
+\subsection{SNN内部状態近似式の導出}
+
+\subsubsection{入力スパイク列の速度変化に対する理想的なSNNの内部状態の定式化}
+本手法では, 入力速度変化に対してSNNの内部状態変化が依存しない状態を理想的と考える.
+そのため, 入力スパイク$o(t)$が$a$倍のタイムスケーリングに対して, SNNの内部状態$v(t)$も同様に$a$倍のタイムスケーリングになることが望ましい.
+ここで, $a$倍のタイムスケーリングとは, 時刻$t_i$における値が時刻$at_i$における値になることを意味する.
+LIFモデル (\eqrefc{eq:lif}) を用いて, 理想状態における入力スパイク$o(t)$と内部状態$v(t)$を表すと\eqrefc{eq:ideal:state}となる.
+\begin{align}
+    \tau \frac{dv\left(at\right)}{dt} &= -\left(v\left(at\right) - v_{rest}\right) + r i\left(at\right) \notag \\
+     &= -\left(v\left(at\right) - v_{rest}\right) + r \left( wo\left(at\right) + b \right) \label{eq:ideal:state}
+\end{align}
+ここで, 簡易化のためにSNNにおけるある1ニューロンについてのみを考える.
+$o(at), v(at)$はそれぞれ$a$倍のタイムスケーリングを行った入力スパイクとSNNの内部状態を表す.
+また, $r, \tau$はそれぞれ理想状態における膜抵抗と時定数を表す.
+
+次に, ラプラス変換を用いて\eqrefc{eq:ideal:state}を$s$領域に変換すると\eqrefc{eq:ideal:state:laplace}と表される.
+\begin{align}
+    \tau \frac{s}{a} V\left(\frac{s}{a}\right) &= -\left(\frac{1}{a} V\left(\frac{s}{a}\right) 
+    - \frac{v_{rest}}{s}\right) + r \left( \frac{w}{a} O\left(\frac{s}{a}\right) + \frac{b}{s} \right) \notag \\
+    \left(\tau s +1\right) V\left(\frac{s}{a}\right)  &= \frac{a}{s} v_{rest} +ar \left( \frac{w}{a} O\left(\frac{s}{a}\right) + \frac{b}{s} \right) \notag \\
+    V\left(\frac{s}{a}\right) &=  \frac{1}{\tau s +1}\left( \frac{a}{s} v_{rest} +rw O\left(\frac{s}{a}\right) + \frac{a}{s}rb \right) \label{eq:ideal:state:laplace}
+\end{align}
+ここで, $V(s), O(s)$はそれぞれSNNの内部状態$v(t)$と入力スパイク$o(t)$のラプラス変換を表す.
+
+
+\subsubsection{入力スパイク列の速度変化に対する実際のSNNの内部状態の定式化}
+次に, 入力スパイク列の速度変化が生じたときの実際のSNNの内部状態を定式化する.
+入力スパイク$o(t)$に対して$a$倍のタイムスケーリングが生じた場合, 実際の内部状態$v(t)$に対して単純なタイムスケーリングが生じるとは限らない.
+そのため, このときの入力スパイク$o(t)$と内部状態$v(t)$を表すと\eqrefc{eq:actual:state}となる.
+\begin{align}
+    \tau_{actual} \frac{dv\left(t\right)}{dt} &= -\left(v\left(t\right) - v_{rest}\right) + r_{actual} i\left(at\right) \notag \\
+     &= -\left(v\left(t\right) - v_{rest}\right) + r_{actual} \left( wo\left(at\right) + b \right) \label{eq:actual:state}
+\end{align}
+% 理想状態における定式化 (\eqrefc{eq:ideal:state}) では, 入力スパイク$o(t)$と内部状態$v(t)$がどちらもタイムスケーリングされていた.
+ここで, 入力スパイク$o(t)$のみタイムスケーリングを行い, 内部状態はタイムスケーリングが生じないと仮定している.
+そのため, \eqrefc{eq:actual:state}の入力スパイクは$o(at)$となり, 内部状態は$v(t)$となる.
+また, $\tau_{actual}, r_{actual}$はそれぞれ実際のSNNの時定数と膜抵抗を表す.
+
+次に, 理想的なSNNの内部状態の定式化 (\eqrefc{eq:ideal:state:laplace}) と同様に, ラプラス変換を用いて\eqrefc{eq:actual:state}を$s$領域に変換すると\eqrefc{eq:actual:state:laplace}と表される.
+\begin{align}
+    \tau_{actual} sV(s) &= - \left( V(s) - \frac{v_{rest}}{s} \right) + r_{actual} \left( \frac{w}{a} O\left(\frac{s}{a}\right) + \frac{b}{s} \right) \notag \\
+    \left(\tau_{actual} s +1\right) V(s) &= \frac{1}{s} v_{rest} +r_{actual} \left( \frac{w}{a} O\left(\frac{s}{a}\right) + \frac{b}{s} \right) \notag \\
+    V(s) &=  \frac{1}{\tau_{actual} s +1}\left( \frac{1}{s} v_{rest} +\frac{1}{a} r_{actual} w O\left(\frac{s}{a}\right) + \frac{1}{s} r_{actual} b \right) \label{eq:actual:state:laplace}
+\end{align}
+
+さらに, \eqrefc{eq:actual:state:laplace}における$s$を$s/a$に置き換えると, \eqrefc{eq:actual:state:laplace2}得られる.
+\begin{align}
+    V\left(\frac{s}{a}\right) &=  \frac{1}{\tau_{actual} \frac{s}{a} +1}\left( \frac{a}{s} v_{rest} +\frac{1}{a} r_{actual} w O\left(\frac{s}{a^2}\right) + \frac{a}{s} r_{actual} b \right) \label{eq:actual:state:laplace2}
+\end{align}
+
+
+\subsubsection{実際の内部状態を理想的な内部状態に近似するための条件の導出}
+実際の内部状態における式 (\eqrefc{eq:actual:state:laplace2}) と理想的な内部状態における式 (\eqrefc{eq:ideal:state:laplace}) を比較すると, その近似条件は\eqrefc{eq:approximation:condition1} - \eqrefc{eq:approximation:condition3}で表される3つの式として得られる.
+\begin{equation}
+    \frac{1}{\tau_{actual} \frac{s}{a} +1} = \frac{1}{\tau s +1}  \label{eq:approximation:condition1}
+\end{equation}
+\begin{equation}
+    \frac{1}{a} r_{actual} w O\left(\frac{s}{a}\right) = r w O\left(\frac{s}{a^2}\right) \label{eq:approximation:condition2}
+\end{equation}
+\begin{equation}
+    \frac{a}{s} r_{actual} b = \frac{a}{s} r b \label{eq:approximation:condition3}
+\end{equation}
+
+まず, \eqrefc{eq:approximation:condition1}については, 式変形より\eqrefc{eq:approximation:condition1:result}が得られる.
+\begin{align}
+    \tau_{actual} = a \tau \label{eq:approximation:condition1:result}
+\end{align}
+
+次に, \eqrefc{eq:approximation:condition2}について考える.
+$O(s/a), O(s/a^2)$は入力スパイク$o(t)$のラプラス変換である.
+ここで, 入力スパイク$o(t)$はディラックのデルタ関数$\delta(t)$として表現される.
+ディラックのデルタ関数$\delta(t)$のラプラス変換は1であるため, $O(s/a) \simeq O(s/a^2) \simeq 1$と近似する.
+この近似によって, \eqrefc{eq:approximation:condition2}から\eqrefc{eq:approximation:condition2:result}で表される条件が得られる.
+\begin{align}
+    \frac{1}{a} r_{actual} w = r w \notag \\
+    r_{actual} = a r \label{eq:approximation:condition2:result}
+\end{align}
+
+最後に, \eqrefc{eq:approximation:condition3}について考える.
+条件\eqrefc{eq:approximation:condition2:result}を用いると, \eqrefc{eq:approximation:condition3}における等式を成り立たせるためには$b=0$とする必要がある.
+
+以上より, 提案手法における条件をまとめると\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}で表される3つの式となる.
+\begin{align}
+    \tau_{actual} &= a \tau \label{eq:approximation:condition1:result} \\
+    r_{actual} &= a r \label{eq:approximation:condition2:result} \\
+    b &= 0 \label{eq:approximation:condition3:result}
+\end{align}
+\eqrefc{eq:approximation:condition1:result}は定性的に考えると, 入力速度が低速になった場合はSNNの内部状態の単位時間あたりの変化量を小さくすることを表す.
+入力速度が高速になった場合はその逆である.
+また, \eqrefc{eq:approximation:condition2:result}は, 入力速度変化によらず入力スパイクの内部状態への影響を一定に保つことを表す.
+
+提案手法では, まずSNNをバイアス0のニューラルネットワークで構成し学習を行う.
+推論時には, 入力速度の$a$倍のタイムスケーリングに対して, 時定数$\tau$と膜抵抗$r$をそれぞれ$a$倍することで, その内部状態を単純なタイムスケーリングに近似する.
+結果として, 入力速度によらない頑健な推論が可能になると考えられる.

@@ -1,4 +1,5 @@
-# MasterThesisTemplate
+# MasterThesisTemplate  
+本体はpushしてないので, 中身は自分の環境でcompileして確認して.  
 
 ## compile
 latexmkコマンドを入れるだけ  

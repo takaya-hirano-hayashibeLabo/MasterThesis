@@ -1,0 +1,173 @@
+\subsection{実験1 入力速度変化に対する内部状態変化の検証}
+
+入力速度変化に対する提案手法の条件 (\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}) は, その導出の仮定で入力スパイクのラプラス変換を1とする仮定を用いている.
+そのため, この条件によって, SNNの内部状態が入力の速度変化に対して, 厳密にタイムスケーリングが生じるとは言えない.
+そこで実験1では, 入力スパイクのタイムスケーリングに対して, 提案手法を用いることで, その内部状態がタイムスケールに近似できることを実験的に検証を行う.
+
+
+\subsubsection{実験概要}
+まず, 基準速度 ($a=1.0$) の入力スパイク$o_{base}(t)$を生成する.
+このとき, 入力スパイク$o_{base}(t)$の生成は, ポアソン分布を用いて行った.
+ポアソン分布を用いたスパイクの生成では, 時刻$t$までに$n$回スパイク (=1) が発生する確率$P[n]$は\eqrefc{eq:poisson:distribution}で表される.
+\begin{align}
+    P[n] = \frac{\left(\lambda t\right)^n}{n!} e^{-\lambda t} \label{eq:poisson:distribution}
+\end{align}
+ここで, $\lambda$は入力スパイクの平均発生頻度である.
+さらに, 微小時間$\it{\Delta} t$のうちに1回スパイクが発生する確率は, 1次までのマクローリン展開より\eqrefc{eq:poisson:distribution:approximation}で表される.
+\begin{align}
+    P[1] = \frac{\left(\lambda \it{\Delta} t\right)^1}{1!} e^{-\lambda \it{\Delta} t} = \lambda \it{\Delta} t + o(\it{\Delta} t) \simeq \lambda \it{\Delta} t \label{eq:poisson:distribution:approximation}
+\end{align}
+本実験では$\it{\Delta} t = 1, \lambda=0.1$を用いて, 基準速度の入力スパイク$o_{base}(t)$の生成を行った.
+
+また, 基準速度に対して$a$倍のタイムスケーリングを行った入力スパイク$o_a(t)$を生成する.
+$o_a(t)$の生成は, 基準入力スパイク$o_{base}(t)$における時刻$t$のスパイクを, 時刻$at$におけるスパイクに時間方向に平行移動させることで生成した.
+入力速度倍率$a$は, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0の20種類の値を用いた.
+
+次に, 生成した入力スパイク$o_{base}(t)$と$o_a(t)$を通常のSNNと提案手法のSNNに入力する.
+その後, 基準速度入力に対するSNNの最終層の内部状態$v_{base}(t)$と, $a$倍の速度倍率の入力に対するSNNの最終層の内部状態$v_a(t)$の平均二乗誤差 (Mean Squared Error, MSE)を比較する.
+$v_{base}(t)$と$v_a(t)$の誤差が小さくなるほど, 提案手法のSNNの内部状態がタイムスケールに近似できていることを示す.
+ここで, 入力速度を変えているため, $v_{base}(t)$と$v_a(t)$の総タイムステップ数は一致しない.
+そこで, $v_{base}(t)$を線形補間することで, 内部状態のタイムステップ数に合わせてその誤差の計算を行った.
+
+\subsubsection{評価対象モデル}
+以下の5種類のモデルをSNNで構築し, 上記の評価を行った.
+これらは, ニューラルネットワークにおいて一般的に用いられることが多いモデル構造である.
+\begin{itemize}
+    \item Linear
+    \item CNN
+    \item CNN + Dropout
+    \item CNN + BatchNormalization
+    \item ResNet
+\end{itemize}
+Lienarは入力データに対して線形変換を行う最も基本的なニューラルネットワークモデルである。
+各入力特徴に対して重みを掛け合わせ、バイアスを加算することで出力を生成する.
+CNN (Convolutional Neural Network) は, 畳み込み層とプーリング層を用いて入力データの特徴を抽出するニューラルネットワークモデルである.
+画像のような空間方向に複数次元の特徴を持つデータに対して用いられることが多い.
+Dropoutは過学習を防ぐための正則化手法の一つである.
+学習中にランダムに一部のニューロンの結合重みを0 (=ドロップアウト)にすることで, ネットワークが特定のニューロンに依存することを防ぐ.
+BatchNormalizationは各ミニバッチを標準化する手法である.
+各層の出力がスケーリングされることで勾配消失問題が緩和され, 学習の安定性と速度が向上する.
+ResNetは, 深いニューラルネットワークの学習における勾配消失問題を解決するためのモデル構造である.
+呼ばれる入力をそのまま出力に反映させる残差ブロックを持つため, 深いネットワークでも学習が容易になる.
+ここで, 通常のResNetの構造はSNNでは用いることが困難なため, MS-ResNet (Membrane Shortcut-ResNet) を用いた.
+MS-ResNetはニューラルネットワークの各層の出力ではなく, SNNにおけるシナプス電流をスキップ接続することで, 深いSNNでの学習を可能にしている.
+
+Linear構造は一様分布 (\eqrefc{eq:uniform:distribution}) によって重みを初期化した.
+\begin{equation}
+    w_{i,j} \sim \mathcal{U}\left(-\sqrt{N}, \sqrt{N}\right) \label{eq:uniform:distribution}
+\end{equation}
+ここで, $N$は入力ニューロン数である.
+また, CNN構造はHeの初期化 (\eqrefc{eq:he:initialization}) に基づく分布によって重みを初期化した.
+\begin{equation}
+    w_{i,j} \sim \mathcal{N}\left(0, \sqrt{\frac{2}{N}}\right) \label{eq:he:initialization}
+\end{equation}
+それぞれの構造において, 上記の分布で初期化した10個のモデルを用意し, 1000通りの入力スパイクに対して内部状態のMSEを計算した.
+
+各モデルのネットワーク構造およびパラメータを\tabref{tab:model:parameter:linear} - \tabref{tab:model:parameter:resnet}に示す.
+ここで, CNNにおいて$kernel\_size=3, stride=1, padding=1$とした.
+また, Dropout層における$dr$はドロップアウト率を表す.
+SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}に示したものを全てのモデル構造において用いた.
+\begin{table}[htbp]
+    \centering
+    \caption{Linear構造}
+    \label{tab:model:parameter:linear}
+    \begin{tabular}{ccc}
+        \hline
+        \textbf{Input size}& \textbf{Hidden size} & \textbf{Output size}\\
+        \hline
+        1   & 8, 8 & 1 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{CNN構造}
+    \label{tab:model:parameter:cnn}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
+        \hline
+        1   & Conv2d & 2x8x8 & 8x8x8 \\
+        2 & AveragePooling2d & 8x8x8 & 8x4x4 \\
+        3 & Conv2d & 8x4x4 & 16x4x4 \\
+        4 & AveragePooling2d & 16x4x4 & 16x2x2 \\
+        5 & Linear & 64 & 32 \\
+        6 & Linear & 32 & 16 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{CNN + Dropout構造}
+    \label{tab:model:parameter:cnn:dropout}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
+        \hline
+        1   & Conv2d & 2x8x8 & 8x8x8 \\
+        2 & AveragePooling2d & 8x8x8 & 8x4x4 \\
+        3 & Dropout ($dr=0.3$) & 8x4x4 & 8x4x4 \\
+        4 & Conv2d & 8x4x4 & 16x4x4 \\
+        5 & AveragePooling2d & 16x4x4 & 16x2x2 \\
+        6 & Dropout ($dr=0.3$) & 16x2x2 & 16x2x2 \\
+        7 & Linear & 64 & 32 \\
+        8 & Linear & 32 & 16 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{CNN + BatchNormalization構造}
+    \label{tab:model:parameter:cnn:batchnormalization}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
+        \hline
+        1   & Conv2d & 2x8x8 & 8x8x8 \\
+        2 & BatchNormalization & 8x8x8 & 8x8x8 \\
+        3 & AveragePooling2d & 8x8x8 & 8x4x4 \\
+        4 & Conv2d & 8x4x4 & 16x4x4 \\
+        5 & BatchNormalization & 16x4x4 & 16x4x4 \\
+        6 & AveragePooling2d & 16x4x4 & 16x2x2 \\
+        7 & Linear & 64 & 32 \\
+        8 & Linear & 32 & 16 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{ResNet構造}
+    \label{tab:model:parameter:resnet}
+    \begin{tabular}{ccccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size} & \textbf{Residual block nums}\\
+        \hline
+        1   & ResNet & 2x8x8 & 8x8x8 & 2\\
+        2 & AveragePooling2d & 8x8x8 & 8x4x4 & - \\
+        3 & ResNet & 8x4x4 & 16x4x4 & 2\\
+        4 & AveragePooling2d & 16x4x4 & 16x2x2 & - \\
+        5 & Linear & 64 & 32 & - \\
+        6 & Linear & 32 & 16 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{LIFモデルのパラメータ}
+    \label{tab:model:parameter:lif}
+    \begin{tabular}{ccccc}
+        \hline
+        $\bm{dt}$& $\bm{v_{rest}}$ & $\bm{v_{th}}$ & $\bm{\tau}$ & $\bm{r}$\\
+        \hline
+        0.001   & 0.0 & 0.01 & 0.05 & 1 \\
+        \hline
+    \end{tabular}
+\end{table}
+

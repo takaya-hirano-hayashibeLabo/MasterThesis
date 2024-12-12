@@ -1,8 +1,9 @@
 \subsection{実験1 入力速度変化に対する内部状態変化の検証}
 
 入力速度変化に対する提案手法の条件 (\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}) は, その導出の仮定で入力スパイクのラプラス変換を1とする仮定を用いている.
-そのため, この条件によって, SNNの内部状態が入力の速度変化に対して, 厳密にタイムスケーリングが生じるとは言えない.
-そこで実験1では, 入力スパイクのタイムスケーリングに対して, 提案手法を用いることで, その内部状態がタイムスケールに近似できることを実験的に検証を行う.
+また, 計算の簡易化のために, 1つのニューロンにおける入力スパイクと内部状態についてのみ議論を行った.
+そのため, この条件によって, ネットワーク構造を持つSNNの内部状態が入力の速度変化に対して, 厳密にタイムスケーリングが生じるとは言えない.
+そこで実験1では, 入力スパイクのタイムスケーリングに対して, 提案手法を用いることで, その内部状態がタイムスケーリングに近似できることを実験的に検証する.
 
 
 \subsubsection{実験概要}
@@ -48,8 +49,8 @@ Dropoutは過学習を防ぐための正則化手法の一つである.
 BatchNormalizationは各ミニバッチを標準化する手法である.
 各層の出力がスケーリングされることで勾配消失問題が緩和され, 学習の安定性と速度が向上する.
 ResNetは, 深いニューラルネットワークの学習における勾配消失問題を解決するためのモデル構造である.
-呼ばれる入力をそのまま出力に反映させる残差ブロックを持つため, 深いネットワークでも学習が容易になる.
-ここで, 通常のResNetの構造はSNNでは用いることが困難なため, MS-ResNet (Membrane Shortcut-ResNet) を用いた.
+入力をそのまま出力に反映させる残差ブロックを持つため, 深いネットワークでも学習が容易になる.
+ここで, 通常のResNetの構造はSNNでは用いることが困難なため, MS-ResNet (Membrane Shortcut-ResNet)\cite{msresnet} を用いた.
 MS-ResNetはニューラルネットワークの各層の出力ではなく, SNNにおけるシナプス電流をスキップ接続することで, 深いSNNでの学習を可能にしている.
 
 Linear構造は一様分布 (\eqrefc{eq:uniform:distribution}) によって重みを初期化した.
@@ -147,9 +148,9 @@ SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}
         \hline
         \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size} & \textbf{Residual block nums}\\
         \hline
-        1   & ResNet & 2x8x8 & 8x8x8 & 2\\
+        1   & MS-ResNet & 2x8x8 & 8x8x8 & 2\\
         2 & AveragePooling2d & 8x8x8 & 8x4x4 & - \\
-        3 & ResNet & 8x4x4 & 16x4x4 & 2\\
+        3 & MS-ResNet & 8x4x4 & 16x4x4 & 2\\
         4 & AveragePooling2d & 16x4x4 & 16x2x2 & - \\
         5 & Linear & 64 & 32 & - \\
         6 & Linear & 32 & 16 & - \\
@@ -170,4 +171,3 @@ SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}
         \hline
     \end{tabular}
 \end{table}
-

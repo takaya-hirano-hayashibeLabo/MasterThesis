@@ -7,6 +7,8 @@
 \usepackage{pdfpages} %pdf追加用
 
 \usepackage[japanese]{babel} % 参考文献の表示を「参考文献」にする
+\usepackage[backend=biber, sorting=none, maxbibnames=99]{biblatex} % 参考文献用, sorting=noneで引用順を保持, maxbibnames=99で最大99個の参考文献を表示
+\bibliography{ref} %.bibのファイル名指定
 
 \renewcommand{\baselinestretch}{1.2} % 行間を1.2倍に設定
 
@@ -20,6 +22,8 @@
 \usepackage{amsmath} % 数式を綺麗に表示するためのパッケージ
 \usepackage{bm} % 太文字
 \DeclareMathOperator*{\argmax}{argmax} %数式でのargmaxの定義  使い方: \mathop{\arg\max}_{i}
+
+\usepackage{hyperref} % リンクを有効にする
 % ========================================================================== %
 
 
@@ -55,13 +59,6 @@
 % ========================================================================== %
 
 
-% ================================= title ================================== %
-% \title{LaTeXでの文書作成入門ああああ}
-% \author{おなまえたろう}
-% \date{\today}
-% ========================================================================== %
-
-
 % ================================ document ================================ %
 \begin{document}
 
@@ -76,33 +73,26 @@
     \begin{center}
   
         {\fontsize{24pt}{24pt}\selectfont  修士学位論文}
-  
         \vspace{3cm}
   
         {\fontsize{20pt}{20pt}\selectfont \textbf{膜電位ダイナミクス安定化による}}
-
         \vspace{0.5cm}
         {\fontsize{20pt}{20pt}\selectfont \textbf{Spiking Neural Networkの}}
-
         \vspace{0.5cm}
         {\fontsize{20pt}{20pt}\selectfont \textbf{入力時系列変化に対する頑健性の向上}}
-
         \vspace{8cm}
+
         {\fontsize{18pt}{18pt}\selectfont 令和6年度} 
-
         \vspace{0.5cm}
-        {\fontsize{18pt}{18pt}\selectfont (令和7年?月??日 提出)} 
-  
-        \vspace{3cm}
-        {\fontsize{18pt}{18pt}\selectfont 東北大学大学院工学研究科}
 
+        {\fontsize{18pt}{18pt}\selectfont (令和7年?月??日 提出)} 
+        \vspace{3cm}
+
+        {\fontsize{18pt}{18pt}\selectfont 東北大学大学院工学研究科}
         \vspace{0.5cm}
         {\fontsize{18pt}{18pt}\selectfont ロボティクス専攻}
-  
-  
         \vspace{1.0cm}
         {\fontsize{18pt}{18pt}\selectfont 平野 貴也}
-  
   
     \end{center}
   \end{titlepage}
@@ -135,8 +125,7 @@
 
 
 % 参考文献
-\bibliographystyle{plain}
-\bibliography{ref}
+\printbibliography % 文献リストを出力
 
 
 \end{document}

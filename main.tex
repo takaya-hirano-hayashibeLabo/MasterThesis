@@ -25,6 +25,21 @@
 \DeclareMathOperator*{\argmax}{argmax} %数式でのargmaxの定義  使い方: \mathop{\arg\max}_{i}
 
 \usepackage{hyperref} % リンクを有効にする
+
+% キャプション設定 -------------------------------------- %
+\usepackage{caption}
+\usepackage{subcaption} % サブキャプション
+\captionsetup{font=small}
+
+% 表のラベルをTab.に変更
+\DeclareCaptionLabelFormat{tab}{Tab.~#2}
+\captionsetup[table]{labelformat=tab}
+
+% 図のラベルをFig.に変更
+\DeclareCaptionLabelFormat{fig}{Fig.~#2}
+\captionsetup[figure]{labelformat=fig}
+% キャプション設定 -------------------------------------- %
+
 % ========================================================================== %
 
 

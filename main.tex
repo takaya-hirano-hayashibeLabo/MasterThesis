@@ -6,9 +6,10 @@
 \usepackage{fancyhdr} % ヘッダーとフッターの設定
 \usepackage{pdfpages} %pdf追加用
 
+\usepackage[T1]{fontenc} % 「OT1エンコーディングでは\kが使えない」とかいう意味わかんないコンパイルエラー解消用 (note → https://www.notion.so/15741bdf4d89808fae3ef68818d9452b?pvs=4#15c41bdf4d89803bbbc9c3bf517435ca)
 \usepackage[japanese]{babel} % 参考文献の表示を「参考文献」にする
-\usepackage[backend=biber, sorting=none, maxbibnames=99]{biblatex} % 参考文献用, sorting=noneで引用順を保持, maxbibnames=99で最大99個の参考文献を表示
-\bibliography{ref} %.bibのファイル名指定
+\usepackage[backend=biber, sorting=none, maxbibnames=99]{biblatex} % 参考文献用, sorting=noneで引用順を保持, maxbibnames=99で最大99個のauthorを表示
+\addbibresource{ref.bib} %.bibのファイル名指定
 
 \renewcommand{\baselinestretch}{1.2} % 行間を1.2倍に設定
 
@@ -69,34 +70,7 @@
 
 
 % タイトル
-\begin{titlepage}
-    \begin{center}
-  
-        {\fontsize{24pt}{24pt}\selectfont  修士学位論文}
-        \vspace{3cm}
-  
-        {\fontsize{20pt}{20pt}\selectfont \textbf{膜電位ダイナミクス安定化による}}
-        \vspace{0.5cm}
-        {\fontsize{20pt}{20pt}\selectfont \textbf{Spiking Neural Networkの}}
-        \vspace{0.5cm}
-        {\fontsize{20pt}{20pt}\selectfont \textbf{入力時系列変化に対する頑健性の向上}}
-        \vspace{8cm}
-
-        {\fontsize{18pt}{18pt}\selectfont 令和6年度} 
-        \vspace{0.5cm}
-
-        {\fontsize{18pt}{18pt}\selectfont (令和7年?月??日 提出)} 
-        \vspace{3cm}
-
-        {\fontsize{18pt}{18pt}\selectfont 東北大学大学院工学研究科}
-        \vspace{0.5cm}
-        {\fontsize{18pt}{18pt}\selectfont ロボティクス専攻}
-        \vspace{1.0cm}
-        {\fontsize{18pt}{18pt}\selectfont 平野 貴也}
-  
-    \end{center}
-  \end{titlepage}
-\cleardoublepage
+\input{Other/title.tex}
 
 
 % 英語アブスト

@@ -34,7 +34,7 @@
             \label{fig:liffigure}
         \end{minipage}
 
-        \caption{
+        \caption[LIFモデルの模式図と膜電位の時間変化]{
             \cite{paramsnn}
             (a) LIFニューロンモデルの模式図. $I, V$はそれぞれニューロンへの入力と膜電位. 
             $w, \tau$はそれぞれニューロン間の接続重みと時定数. 
@@ -55,7 +55,7 @@ Parametric-SNNでは, ニューロンの重み$w$と同様に時定数$\tau$が�
 さらに, その学習の収束速度も向上することが示された (\figref{fig:paramsnn:traincurve}).
 \begin{table}[htbp]
     \centering
-    \caption{
+    \caption[Parametric-SNNのパフォーマンス]{
         Parametric-SNNのパフォーマンス\cite{paramsnn}.
         タスクは画像認識, 動画認識のベンチマークテスト. 
         $\tau$は学習前の時定数の初期値を表す.
@@ -79,7 +79,7 @@ Parametric-SNNでは, ニューロンの重み$w$と同様に時定数$\tau$が�
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{Static/chap1_paramsnn_traincurve.pdf}
-    \caption{
+    \caption[Parametric-SNNとSNNの学習曲線]{
         Parametric-SNNとSNNの学習曲線\cite{paramsnn}.
     }
     \label{fig:paramsnn:traincurve}

@@ -81,6 +81,8 @@ Parametric-SNNでは, ニューロンの重み$w$と同様に時定数$\tau$が�
     \includegraphics[width=0.8\textwidth]{Static/chap1_paramsnn_traincurve.pdf}
     \caption[Parametric-SNNとSNNの学習曲線]{
         Parametric-SNNとSNNの学習曲線\cite{paramsnn}.
+        LIF, PLIFはそれぞれ従来のLIFモデル, Parametric-SNNを表す.
+        $\tau$が同じSNNとParametric-SNNを比較したとき, Parametric-SNNの方が収束が速い.
     }
     \label{fig:paramsnn:traincurve}
 \end{figure}
@@ -145,7 +147,7 @@ Zhengらは, このような樹状突起の時間特性の多様さを表現す�
 通常, ニューロンの膜電位はその活性によって電気パルス信号を出力すると, その状態は初期状態にリセットされる.
 そのため, LIFモデルは長期の時間関係の記憶が困難とされている.
 一方, 樹状突起ではそのリセットが生じないため, より長期の時間関係の学習が可能となる.
-DH-SNNを用いることで, 音声認識や動画認識, 脳波認識において, 通常のSNNと比較して高いパフォーマンスを発揮した\figref{fig:dhsnn:voice}\figref{fig:dhsnn:brain}.
+DH-SNNを用いることで, 音声認識や動画認識, 脳波認識において, 通常のSNNと比較して高いパフォーマンスを発揮した(\figref{fig:dhsnn:voice}, \figref{fig:dhsnn:brain}).
 \begin{figure}
     \centering
 
@@ -167,7 +169,11 @@ DH-SNNを用いることで, 音声認識や動画認識, 脳波認識におい�
         \caption[DH-SNNにおける精度比較]{
             \cite{dhsnn}
             (a) 音声認識タスク精度比較.
+            灰色が従来のSNN, 青・緑・赤色がDH-SNNを表す.
+            DH-SNNにおける色の薄さは樹状突起における時定数の学習の有無を表す.
             (b) 脳波認識タスク精度比較.
+            青色が従来のSNN, その他の色がDH-SNNを表す.
+            branchの数は1ニューロンから分岐する樹状突起の数を表す.
         }
     }
 \end{figure}

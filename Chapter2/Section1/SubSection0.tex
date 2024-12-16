@@ -3,7 +3,7 @@ Spiking Neural Network (SNN)は, 生物の脳神経回路を模倣した数理�
 脳神経回路は, ニューロンと呼ばれる細胞体, 樹状突起, 軸索, シナプスからなる要素の接続によって構成される.
 無数のニューロンによって, 入力された電気パルスが出力信号に変換されることで, 生物のような複雑なダイナミクスを表現することが可能となる.
 
-典型的なニューロンの構成要素について, \figref{fig:neuron}に示す.
+典型的なニューロンの構成要素について\figref{fig:brain:neuron}に示す.
 まず, 細胞体は数マイクロメートルから数十マイクロメートルほどの大きさ, 樹状突起の長さは数十マイクロメートルから1ミリメートル程度である.
 軸索の長さは長いもので1メートル近くに達する.
 ニューロンにおける情報は, 樹状突起から細胞体, 軸索を通してシナプスに向かい, 他のニューロンへと伝達される.
@@ -11,14 +11,33 @@ Spiking Neural Network (SNN)は, 生物の脳神経回路を模倣した数理�
 この信号によって, 樹状突起や細胞体の中の内部状態である膜電位が変化する.
 このとき, 膜電位を正の方向に変化させる信号を興奮性シナプス, 負の方向に変化させる信号を抑制性シナプスと呼ぶ.
 興奮性シナプスと抑制性シナプスによる刺激によって, 膜電位があるしきい値を超えると, 膜電位が急激に上昇する.
-この電圧は活動電位と呼ばれ, パルス状の信号として軸索上を伝達する.
+この電圧は活動電位と呼ばれ, パルス状の信号として軸索上を伝達する (\figref{fig:brain:actionpotential}).
 伝達速度は0.5 m/sから100 m/s程度であり, 軸索の種類や太さによって大きく差がある.
 軸索の終端に電気信号が到達すると, シナプスから化学伝達物質が分泌され, 接続された樹状突起や細胞体の膜電位を変化させる.
 このようなニューロンをネットワーク状に接続し, パルス状の信号を伝達することで, 脳神経回路は複雑な情報処理を行っている.
 
 \begin{figure}[htbp]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-    \caption{ニューロンの構成要素}
-    \label{fig:neuron}
+
+    \begin{minipage}{0.497\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec1_brainneuron}
+        \subcaption{神経細胞の構成}
+        \label{fig:brain:neuron}
+    \end{minipage}
+    \hspace{0.02\textwidth}
+    \begin{minipage}{0.3474\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec1_brainactv}
+        \subcaption{膜電位の上昇によるパルス信号の出力}
+        \label{fig:brain:actionpotential}
+    \end{minipage}
+
+    \caption[脳神経回路の模式図]{
+        \cite{lobo2020spiking}
+        (a) 神経細胞の構成. 
+        樹状突起 (dendrites), 軸索 (axon), シナプス (synapse), 細胞体 (soma) を構成要素として持つ.
+        (b) 膜電位の上昇によるパルス信号の出力.
+        細胞体の膜電位 (Action Potential) が閾値を超えるとパルス信号が出力される.
+    }
 \end{figure}

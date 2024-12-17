@@ -2,7 +2,7 @@
 
 一般的に, ANNの学習には誤差逆伝播法が用いられる.
 誤差逆伝播法とは, ニューラルネットワークの出力と学習データの損失の勾配を用いて, ネットワークの各パラメータを更新する手法である.
-本研究では, 誤差逆伝播法をSNNの学習に拡張したSpatio-Temporal Backpropagation (STBP)則を用いる.
+本研究では, 誤差逆伝播法をSNNの学習に拡張したSpatio-Temporal Backpropagation (STBP)則\cite{stbp}を用いる.
 
 SNNは時間的に連続なスパイク列を処理するため, 時間的・空間的な情報を同時に扱う.
 さらに, スパイクは0か1の不連続な値を持つため, その勾配は消失または発散してしまう.
@@ -33,11 +33,36 @@ LIFモデルをニューロンモデルとしたSNNに対し, 初期条件$v(t)|
 $N(l)$は第$l$層のニューロン数に対応する.
 \eqrefc{eq:snn:lif:state2}はニューロン内部状態の時間変化を表しており, 1項目の$v_i^{t,l} f\left(o_i^{t,l}\right)$は過去の内部状態の記憶, 2項目と3項目の$x_i^{t+1,l}$と$b_i^l$は現在の入力を表す.
 
-STBPにおける時間的・空間的な損失勾配の概要を\figref{fig:snn:stbp}に示す. 
-\figref{fig:snn:stbp}の (A) は単一のニューロン, (B) はネットワークにおける勾配の伝播を表す.
+STBPにおける時間的・空間的な損失勾配の概要を\figref{fig:snn:stbp:single}と\figref{fig:snn:stbp:network}に示す. 
+\figref{fig:snn:stbp:single}は単一のニューロン, \figref{fig:snn:stbp:network}はネットワークにおける勾配の伝播を表す.
 STBPは空間的な勾配と時間的な勾配を伝播することで, ネットワークのパラメータを更新する.
 空間的な勾配は, 通常のニューラルネットワークにおける誤差逆伝播法と同様に, 出力の損失勾配から重みとバイアスの勾配を計算する.
 一方, 時間的な勾配は, Recurrent Neural Network (RNN) における誤差逆伝播法である Backpropagation Through Time (BPTT) と同様に, 時間的な損失勾配からニューロンの内部状態の勾配を計算する.
+\begin{figure}[htbp]
+    \centering
+
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec1_stbp1}
+        \subcaption{単一ニューロンの勾配}
+        \label{fig:snn:stbp:single}
+    \end{minipage}
+    \hspace{0.02\textwidth}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec1_stbp2}
+        \subcaption{ネットワークの勾配}
+        \label{fig:snn:stbp:network}
+    \end{minipage}
+
+    \caption[STBP則における時間的・空間的な損失勾配の概要]{
+        \cite{stbp}
+        (a) 単一ニューロンの勾配.
+        $SD, TD$はそれぞれ空間的, 時間的な損失勾配を表す.
+        (b) ネットワークの勾配.
+    }
+\end{figure}
+
 
 STBP則における損失関数$L$を\eqrefc{eq:snn:stbp:loss}に示す.
 \begin{equation}
@@ -156,7 +181,7 @@ $t<T, l<L$の場合
     \end{cases} \label{eq:stbp:sign}
 \end{equation}
 また, $a_i$は各関数の積分が1になるような定数である.
-それぞれの導関数の外形図を\figref{fig:snn:stbp:g}に示す.
+それぞれの導関数の外形図を\figref{fig:snn:stbp:pesudo:grad}に示す.
 導関数は釣鐘状の形状をしており, ディラックのデルタ関数を近似している.
 これらの近似関数はどの形状であっても, その学習精度は大きく変動しないことが知られている.
 本研究では, \eqrefc{eq:stbp:g3}のfast sigmoid関数を用いることでSTBP則での学習を行った.
@@ -165,16 +190,26 @@ $t<T, l<L$の場合
 
 \begin{figure}[htbp]
     \centering
-    % ↓これはる↓
-    % https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2018.00331/full#:~:text=of%20spike%20activity.-,Thus%2C,in%20Equation%20(11)%E2%80%93(21)%20for%20STBP%20can%20be%20approximated%20by%3A,-%E2%88%82
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-    \caption{スパイク出力関数$g(v)$とその導関数の近似関数}
-    \label{fig:snn:stbp:g}
-\end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-    \caption{STBP則における時間的・空間的な損失勾配の概要}
-    \label{fig:snn:stbp}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec1_pesudo1}
+        \subcaption{スパイク出力関数$g(v)$とその勾配}
+        \label{fig:snn:stbp:g}
+    \end{minipage}
+    \hspace{0.02\textwidth}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec1_pesudo2}
+        \subcaption{$\frac{dg}{dv}$の近似関数}
+        \label{fig:snn:stbp:pesudo:grad}
+    \end{minipage}
+
+    \caption[スパイク出力関数の勾配の近似関数]{
+        \cite{stbp}
+        (a) スパイク出力関数$g(v)$とその勾配. 
+        勾配${dg}/{dv}$はディラックのデルタ関数$\delta(v)$で表現される.
+        (b) ${dg}/{dv}$の近似関数.
+        $h_1, h_2, h_3, h_4$はそれぞれ\eqrefc{eq:stbp:g1} - \eqrefc{eq:stbp:g4}の近似関数を表す.
+    }
 \end{figure}

@@ -2,9 +2,9 @@
 提案手法における条件\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}では, 入力速度倍率$a$を推定する必要がある.
 ここでは, 本手法における入力速度倍率の推定方法について述べる.
 
-まず, 入力速度倍率$a$は, 時刻$t$における入力スパイク$o(t)$が速度変化によって時刻$at$に移動することに対応する (\figref{fig:input:speed:change}).
+まず, 入力速度倍率$a$は, 時刻$t$における入力スパイク$o(t)$が速度変化によって時刻$at$に移動することに対応する (\figref{fig:inspike:scaled}).
 次に, 入力スパイク密度$fr$を定義する.
-入力スパイク密度$fr$とは, 単位時間当たりのスパイクの数を表す (\eqrefc{eq:input:spike:density}).
+入力スパイク密度$fr$とは, 単位時間当たりのスパイクの数を表す (\eqrefc{eq:input:spike:density}, \figref{fig:firingrate}).
 \begin{align}
     fr = \frac{1}{T} \sum_{t=1}^{T} o(t) \label{eq:input:spike:density}
 \end{align}
@@ -17,9 +17,24 @@
 
 \begin{figure}[htb]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-    \caption{入力速度変化による入力スパイクの移動}
-    \label{fig:input:speed:change}
+
+    \begin{minipage}{0.9\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec3_inspikescale}
+        \subcaption{入力スパイクの速度倍率変化}
+        \label{fig:inspike:scaled}
+    \end{minipage}
+
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec3_firingrate}
+        \subcaption{スパイク密度$fr$}
+        \label{fig:firingrate}
+    \end{minipage}
+
+    \caption[入力スパイクの速度倍率変化とスパイク密度]{
+        (a) 入力スパイクの速度倍率変化.
+        $o(t), o(at)$はそれぞれ元の入力スパイク, 速度倍率変化後のスパイクを表す. 
+        (b) スパイク密度$fr$.
+    }
 \end{figure}
-
-

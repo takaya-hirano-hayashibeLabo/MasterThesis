@@ -38,7 +38,7 @@ STBPにおける時間的・空間的な損失勾配の概要を\figref{fig:snn:
 STBPは空間的な勾配と時間的な勾配を伝播することで, ネットワークのパラメータを更新する.
 空間的な勾配は, 通常のニューラルネットワークにおける誤差逆伝播法と同様に, 出力の損失勾配から重みとバイアスの勾配を計算する.
 一方, 時間的な勾配は, Recurrent Neural Network (RNN) における誤差逆伝播法である Backpropagation Through Time (BPTT) と同様に, 時間的な損失勾配からニューロンの内部状態の勾配を計算する.
-\begin{figure}[htbp]
+\begin{figure}[htb]
     \centering
 
     \begin{minipage}{0.478\textwidth}
@@ -188,7 +188,7 @@ $t<T, l<L$の場合
 
 以上よりSTBP則では, 内部状態の勾配\eqrefc{eq:stbp:v:case1} - \eqrefc{eq:stbp:v:case4}と導関数の近似を用いることで, 時空間方向に対して重み$\bm{W}$とバイアス$\bm{b}$を\eqrefc{eq:stbp:b}と\eqrefc{eq:stbp:w}によって学習することが可能となる.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
     \centering
 
     \begin{minipage}{0.377\textwidth}
@@ -201,7 +201,7 @@ $t<T, l<L$の場合
     \begin{minipage}{0.422\textwidth}
         \centering
         \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec1_pesudo2}
-        \subcaption{$\frac{dg}{dv}$の近似関数}
+        \subcaption{${dg}/{dv}$の近似関数}
         \label{fig:snn:stbp:pesudo:grad}
     \end{minipage}
 

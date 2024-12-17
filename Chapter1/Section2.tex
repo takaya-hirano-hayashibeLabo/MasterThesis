@@ -16,7 +16,7 @@
 また, $w^-, \tau^-$はそれぞれ重みと時定数が基準値より小さい場合の膜電位の時間変化を表す.
 \figref{fig:liffigure}より, ニューロンの接続重み$w$だけでなく, 時定数$\tau$の値によっても膜電位の収束速度が変化することがわかる.
 このことから, 時定数を学習可能とすることで, SNNの時間表現能力の向上が期待される.
-\begin{figure}[htbp]
+\begin{figure}[htb]
     \centering
 
     \parbox{1.0\textwidth}{
@@ -53,7 +53,7 @@ Parametric-SNNでは, ニューロンの重み$w$と同様に時定数$\tau$が�
 これによって, SNNが多様な時間的特性の学習が可能となる.
 結果として, Parametric-SNNは従来のLIFモデルを用いたSNNよりも画像認識, 動画認識タスクにおいて高いパフォーマンスを発揮した (\tabref{tab:paramsnn:result1}).
 さらに, その学習の収束速度も向上することが示された (\figref{fig:paramsnn:traincurve}).
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption[Parametric-SNNのパフォーマンス]{
         Parametric-SNNのパフォーマンス\cite{paramsnn}.

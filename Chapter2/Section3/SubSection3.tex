@@ -8,14 +8,14 @@ UR5eの構成図とDenavit-Hartenbergパラメータ (DHパラメータ)をそ�
 UR5eの制御は目標手先位置から目標関節角度を逆運動学で求め, PD制御によって行った.
 ここで, PD制御におけるPゲイン$K_p$, Dゲイン$K_d$はそれぞれ$1$, $0.1$とした.
 また, 目標関節角度の計算はMujocoにおける微分運動学ライブラリであるmink\cite{mink}を用いた.
-\begin{figure}[htbp]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=0.5\textwidth]{Static/ur5e_structure.png}
     \caption{UR5eの構成図 \cite{ur5e}}
     \label{fig:ur5e:structure}
 \end{figure}
 
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{UR5eのDHパラメータ \cite{ur5e}}
     \label{tab:ur5e:dh}
@@ -68,7 +68,7 @@ SNNの出力は0か1のスパイクであるため, 連続値であるエンド�
 これはSNNのみでVariational Autoencoder (VAE)を構築したFully Spiking VAE (FSVAE)\cite{fsvae}を参考にした構造である.
 また, NN予測器の活性化関数はReLU関数とした.
 モデルサイズと学習時のパラメータを\tabref{tab:exp3:model:snn} - \tabref{tab:exp3:train:parameter}に示す.
-\begin{table}[htbp] %\20241112\\eight_figure_shallow3\\snn_beta0.95_seq50",
+\begin{table}[htb] %\20241112\\eight_figure_shallow3\\snn_beta0.95_seq50",
     \centering
     \caption{マニピュレータ軌道予測モデル : SNN特徴抽出器$f_{\theta}^{SNN}$}
     \label{tab:exp3:model:snn}
@@ -81,7 +81,7 @@ SNNの出力は0か1のスパイクであるため, 連続値であるエンド�
     \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{LIFモデルのパラメータ}
     \label{tab:exp3:model:parameter:lif}
@@ -94,7 +94,7 @@ SNNの出力は0か1のスパイクであるため, 連続値であるエンド�
     \end{tabular}
 \end{table}
 
-\begin{table}[htbp] %\20241112\\eight_figure_shallow3\\snn_beta0.95_seq50",
+\begin{table}[htb] %\20241112\\eight_figure_shallow3\\snn_beta0.95_seq50",
     \centering
     \caption{マニピュレータ軌道予測モデル : NN予測器$f_{\theta}^{NN}$}
     \label{tab:exp3:model:nn}
@@ -107,7 +107,7 @@ SNNの出力は0か1のスパイクであるため, 連続値であるエンド�
     \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{モデルの学習条件}
     \label{tab:exp3:train:parameter}

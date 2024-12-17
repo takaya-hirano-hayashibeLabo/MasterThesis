@@ -17,14 +17,14 @@ DVSGestureはイベントベースビジョンセンサ (DVS128 : \figref{fig:dv
 イベントは時間的なピクセルの輝度変化を検出するため, ジェスチャーでは動きの多い腕周りのピクセル情報が多く記録される.
 % 画像引用元
 % https://docs.inivation.com/_static/hardware_guides/dvs128.pdf
-\begin{figure}[htbp]
+\begin{figure}[htb]
     \centering
     \includesvg[width=0.5\textwidth, inkscapelatex=false]{Static/chap2_sec3_dvs128}
     \caption{DVS128\cite{dvs128fig}}
     \label{fig:dvs128}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=1.0\textwidth]{Static/chap2_sec3_dvs_recordview.png}
     \caption{DVSGesture記録の様子\cite{dvsgesture}}
@@ -33,7 +33,7 @@ DVSGestureはイベントベースビジョンセンサ (DVS128 : \figref{fig:dv
 
 DVSGestureは11種類のクラスのジェスチャーを記録している.
 それぞれのジェスチャーのスナップショットを\figref{fig:dvs:gesture}に示す.
-\begin{figure}[htbp]
+\begin{figure}[htb]
     \centering
     \includesvg[width=0.5\textwidth, inkscapelatex=false]{dummy/dummy_img}
     \caption{各ジェスチャーのスナップショット}
@@ -48,7 +48,7 @@ DVSGestureは11種類のクラスのジェスチャーを記録している.
 Parametric-SNNとは, ニューラルネットワークの重みとバイアスに加えて, SNNのLIFモデルにおける時定数も学習可能としたSNNである.
 モデル構成と学習時のパラメータを\tabref{tab:exp2:model}, \tabref{tab:exp2:model:parameter:lif}, \tabref{tab:exp2:train:parameter}に示す.
 また, 学習させたそれぞれのモデル構成は統一で\tabref{tab:exp2:model}のものを用いており, その相違点はニューラルネットワークのバイアスと時定数の学習についてのみである (\tabref{tab:exp2:parameter}).
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{ジェスチャー分類モデル構成}
     \label{tab:exp2:model}
@@ -66,7 +66,7 @@ Parametric-SNNとは, ニューラルネットワークの重みとバイアス�
     \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{LIFモデルのパラメータ}
     \label{tab:exp2:model:parameter:lif}
@@ -80,7 +80,7 @@ Parametric-SNNとは, ニューラルネットワークの重みとバイアス�
 \end{table}
 
 
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{モデルの学習条件}
     \label{tab:exp2:train:parameter}
@@ -97,7 +97,7 @@ Parametric-SNNとは, ニューラルネットワークの重みとバイアス�
 \end{table}
 
 
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{各モデルの相違点}
     \label{tab:exp2:parameter}
@@ -137,7 +137,7 @@ Parametric-SNNとは, ニューラルネットワークの重みとバイアス�
 $a_1, a_2$はそれぞれ\tabref{tab:model:parameter:speed:change}に示す値を用いた.
 ここで, $a=1.0$は学習時の速度データである.
 
-\begin{table}[htbp]
+\begin{table}[htb]
     \centering
     \caption{速度変更のパラメータ $a_1, a_2$}
     \label{tab:model:parameter:speed:change}

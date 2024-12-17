@@ -15,20 +15,22 @@ DVSGestureはイベントベースビジョンセンサ (DVS128 : \figref{fig:dv
 上段が通常のフレームベースカメラで記録したもの, 下段がイベントベースビジョンセンサで記録したものである.
 また, 黒色は値が0であることを表し, 青色, 桃色はそれぞれ$p=1, p=-1$のイベントを表す.
 イベントは時間的なピクセルの輝度変化を検出するため, ジェスチャーでは動きの多い腕周りのピクセル情報が多く記録される.
-% 画像引用元
-% https://docs.inivation.com/_static/hardware_guides/dvs128.pdf
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \centering
-    \includesvg[width=0.5\textwidth, inkscapelatex=false]{Static/chap2_sec3_dvs128}
-    \caption{DVS128\cite{dvs128fig}}
-    \label{fig:dvs128}
-\end{figure}
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=1.0\textwidth]{Static/chap2_sec3_dvs_recordview.png}
-    \caption{DVSGesture記録の様子\cite{dvsgesture}}
-    \label{fig:dvs:recordview}
+    \begin{minipage}{0.3625\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec3_dvs128}
+        \caption[DVS128の外観]{DVS128\cite{dvs128fig}}
+        \label{fig:dvs128}
+    \end{minipage}
+    \hspace{0.02\textwidth}
+    \begin{minipage}{0.53746\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec3_recordview}
+        \caption[DVSGesture記録の様子]{DVSGesture記録の様子\cite{dvsgesture}}
+        \label{fig:dvs:recordview}
+    \end{minipage}
 \end{figure}
 
 DVSGestureは11種類のクラスのジェスチャーを記録している.

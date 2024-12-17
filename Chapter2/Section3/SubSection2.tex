@@ -33,13 +33,7 @@ DVSGestureはイベントベースビジョンセンサ (DVS128 : \figref{fig:dv
 
 DVSGestureは11種類のクラスのジェスチャーを記録している.
 それぞれのジェスチャーのスナップショットを\figref{fig:dvs:gesture}に示す.
-\begin{figure}[htb]
-    \centering
-    \includesvg[width=0.5\textwidth, inkscapelatex=false]{dummy/dummy_img}
-    \caption{各ジェスチャーのスナップショット}
-    \label{fig:dvs:gesture}
-\end{figure}
-
+\input{Chapter2/Section3/gesture_snapshot.tex}
 
 \subsubsection{モデルの学習}
 モデルの学習はイベントの時系列データを入力, ジェスチャーのクラスを出力とする分類問題として行う.

@@ -6,7 +6,7 @@
 
 SNNは時間的に連続なスパイク列を処理するため, 時間的・空間的な情報を同時に扱う.
 さらに, スパイクは0か1の不連続な値を持つため, その勾配は消失または発散してしまう.
-このため, ANNに用いられる誤差逆伝播法はそのまま用いることができない.
+このため, ANNに用いられる誤差逆伝播法はそのまま用いることができない\cite{stbpref}.
 そこで, STBP則では空間情報と時間情報の両方の損失に対して勾配を計算し, さらに, スパイクの勾配を近似関数を用いて表現することで, 近似的に誤差逆伝播法を実現する.
 
 LIFモデルをニューロンモデルとしたSNNに対し, 初期条件$v(t)|_{t=t_{i-1}}=v(t_{i-1})$としたときの\eqrefc{eq:lif}の線形微分方程式の解は\eqrefc{eq:snn:lif:diff}となる.
@@ -37,7 +37,7 @@ STBPにおける時間的・空間的な損失勾配の概要を\figref{fig:snn:
 \figref{fig:snn:stbp:single}は単一のニューロン, \figref{fig:snn:stbp:network}はネットワークにおける勾配の伝播を表す.
 STBPは空間的な勾配と時間的な勾配を伝播することで, ネットワークのパラメータを更新する.
 空間的な勾配は, 通常のニューラルネットワークにおける誤差逆伝播法と同様に, 出力の損失勾配から重みとバイアスの勾配を計算する.
-一方, 時間的な勾配は, Recurrent Neural Network (RNN) における誤差逆伝播法である Backpropagation Through Time (BPTT) と同様に, 時間的な損失勾配からニューロンの内部状態の勾配を計算する.
+一方, 時間的な勾配は, Recurrent Neural Network (RNN) における誤差逆伝播法である Backpropagation Through Time (BPTT)\cite{bptt} と同様に, 時間的な損失勾配からニューロンの内部状態の勾配を計算する.
 \begin{figure}[htb]
     \centering
 

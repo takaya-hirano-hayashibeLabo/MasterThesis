@@ -9,7 +9,7 @@
 \subsubsection{実験概要}
 まず, 基準速度 ($a=1.0$) の入力スパイク$o_{base}(t)$を生成する.
 このとき, 入力スパイク$o_{base}(t)$の生成は, ポアソン分布を用いて行った.
-ポアソン分布を用いたスパイクの生成では, 時刻$t$までに$n$回スパイク (=1) が発生する確率$P[n]$は\eqrefc{eq:poisson:distribution}で表される.
+ポアソン分布を用いたスパイクの生成\cite{poisson}では, 時刻$t$までに$n$回スパイク (=1) が発生する確率$P[n]$は\eqrefc{eq:poisson:distribution}で表される.
 \begin{align}
     P[n] = \frac{\left(\lambda t\right)^n}{n!} e^{-\lambda t} \label{eq:poisson:distribution}
 \end{align}
@@ -35,10 +35,10 @@ $v_{base}(t)$と$v_a(t)$の誤差が小さくなるほど, 提案手法のSNNの
 これらは, ニューラルネットワークにおいて一般的に用いられることが多いモデル構造である.
 \begin{itemize}
     \item Linear
-    \item CNN
-    \item CNN + Dropout
-    \item CNN + BatchNormalization
-    \item ResNet
+    \item CNN\cite{cnn}
+    \item CNN + Dropout\cite{dropout}
+    \item CNN + BatchNormalization\cite{batchnorm}
+    \item ResNet\cite{resnet}
 \end{itemize}
 Lienarは入力データに対して線形変換を行う最も基本的なニューラルネットワークモデルである。
 各入力特徴に対して重みを掛け合わせ、バイアスを加算することで出力を生成する.
@@ -58,7 +58,7 @@ Linear構造は一様分布 (\eqrefc{eq:uniform:distribution}) によって重�
     w_{i,j} \sim \mathcal{U}\left(-\sqrt{N}, \sqrt{N}\right) \label{eq:uniform:distribution}
 \end{equation}
 ここで, $N$は入力ニューロン数である.
-また, CNN構造はHeの初期化 (\eqrefc{eq:he:initialization}) に基づく分布によって重みを初期化した.
+また, CNN構造は\eqrefc{eq:he:initialization}に示すHeの初期化\cite{heinit} に基づく分布によって重みを初期化した.
 \begin{equation}
     w_{i,j} \sim \mathcal{N}\left(0, \sqrt{\frac{2}{N}}\right) \label{eq:he:initialization}
 \end{equation}

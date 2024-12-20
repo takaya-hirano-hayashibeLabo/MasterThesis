@@ -1,12 +1,12 @@
 \subsection{Spiking Neural Networkの構成}
 
-Spiking Neural Network (SNN) は前述したニューロンにおけるパルス信号を介した情報処理を模倣したニューラルネットワークである\cite{generalsnn}.
-そのため, 通常のArtificial Neural Network (ANN) と比較して, より生物的妥当性が高いモデルと考えられている.
+Spiking Neural Network (SNN) は前述した通り, 脳神経回路におけるパルス信号を介した情報処理を模倣したニューラルネットワークである\cite{generalsnn}.
+そのため, 通常のArtificial Neural Network (ANN) と比較して, より生物的妥当性が高いモデルとされている.
 SNNはパルス状の電気信号を, スパイクと呼ばれる0か1の値を持つ信号として扱う.
 さらに, スパイクが時間軸に沿って並べられたものをスパイク列と呼び, SNNはこのスパイク列をニューロン間で伝達することで, ニューロンの時間的なダイナミクスを模倣し情報処理を行う.
 
 SNNの第$l$層における入出力の流れを\figref{fig:snn:inoutflow}に示す.
-まず, SNNへ入力されたスパイク$\bm{o}^{t, l-1}$は\eqrefc{eq:input_spike}によって重み付けされシナプス電流$\bm{i}^{t,l}$へ変換される.
+まず, 第$l$層へ入力されたスパイク$\bm{o}^{t, l-1}$は\eqrefc{eq:input_spike}によって重み付けされシナプス電流$\bm{i}^{t,l}$へ変換される.
 
 \begin{equation}
     \bm{i}^{t, l} = \bm{W}^l\bm{o}^{t, l-1} + \bm{b}^l
@@ -15,8 +15,8 @@ SNNの第$l$層における入出力の流れを\figref{fig:snn:inoutflow}に示
 ここで, $t$はその時刻を表し, $\bm{W}^l, \bm{b}^l$はそれぞれ第$l$層のニューラルネットワークの重みとバイアスを表す.
 
 次に, 第$l$層のSNNの内部状態$\bm{v}^{t, l}$は, 神経細胞活動の数理モデルによって更新される.
-本研究では, 数理モデルとしてLeaky Integrate-and-Fire (LIF) モデル\eqrefc{eq:lif}を用いる.
-LIFモデルとは, 入力シナプス電流を, 神経細胞の内部状態があるしきい値に達するまで時間的に積分するモデルである.
+本研究では, 数理モデルとしてLeaky Integrate-and-Fire (LIF) (モデル\eqrefc{eq:lif}) を用いる.
+LIFモデルでは, 入力シナプス電流$\bm{i}^{t, l}$を, 神経細胞の内部状態$\bm{v}^{t, l}$があるしきい値に達するまで時間的な積分を行う.
 
 \begin{equation}
     {\tau}\frac{d\bm{v}^l}{dt}=-\left(\bm{v}^l\left({t-1}\right)-v_{rest}\right)+r\bm{i}^{t, l}

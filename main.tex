@@ -6,6 +6,7 @@
 \usepackage{fancyhdr} % ヘッダーとフッターの設定
 \usepackage{pdfpages} %pdf追加用
 
+\usepackage{csquotes} % 日本語引用のためのパッケージ
 \usepackage[T1]{fontenc} % 「OT1エンコーディングでは\kが使えない」とかいう意味わかんないコンパイルエラー解消用 (note → https://www.notion.so/15741bdf4d89808fae3ef68818d9452b?pvs=4#15c41bdf4d89803bbbc9c3bf517435ca)
 \usepackage[japanese]{babel} % 参考文献の表示を「参考文献」にする
 \usepackage[backend=biber, sorting=none, maxbibnames=99]{biblatex} % 参考文献用, sorting=noneで引用順を保持, maxbibnames=99で最大99個のauthorを表示
@@ -80,7 +81,7 @@
 
 
 % 表紙pdfの挿入
-\includepdf[pages=-,fitpaper=true]{Other/hyoshi.pdf}
+% \includepdf[pages=-,fitpaper=true]{Other/hyoshi.pdf}
 \cleardoublepage
 
 
@@ -89,7 +90,7 @@
 
 
 % 英語アブスト
-\input{Other/abstract} %abstract追加
+% \input{Other/abstract} %abstract追加
 \cleardoublepage
 
 
@@ -104,13 +105,13 @@
 % 本文
 \input{Chapter1/Chapter1.tex}
 \input{Chapter2/Chapter2.tex}
-\input{Chapter3/Chapter3.tex}
-\input{Chapter4/Chapter4.tex}
+% \input{Chapter3/Chapter3.tex}
+% \input{Chapter4/Chapter4.tex}
 % \input{Chapter5/Chapter5.tex}
 
 
 % 謝辞
-\input{Other/thanks}
+% \input{Other/thanks}
 
 
 % 参考文献

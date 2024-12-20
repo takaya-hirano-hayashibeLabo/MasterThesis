@@ -28,7 +28,7 @@ LIFモデルをニューロンモデルとしたSNNに対し, 初期条件$v(t)|
 \end{align}
 
 
-ここで, $w_ij$は第$l$層の$i$番目のニューロンと第$l-1$層の$j$番目のニューロンの間のシナプス結合の重み, $b_i^l$は第$l$層の$i$番目のニューロンのバイアスである.
+ここで, $w_{ij}$は第$l$層の$i$番目のニューロンと第$l-1$層の$j$番目のニューロンの間のシナプス結合の重み, $b_i^l$は第$l$層の$i$番目のニューロンのバイアスである.
 また, $o_j$は0または1の値を持ち, ニューロンの発火スパイクを表す.
 $N(l)$は第$l$層のニューロン数に対応する.
 \eqrefc{eq:snn:lif:state2}はニューロン内部状態の時間変化を表しており, 1項目の$v_i^{t,l} f\left(o_i^{t,l}\right)$は過去の内部状態の記憶, 2項目と3項目の$x_i^{t+1,l}$と$b_i^l$は現在の入力を表す.
@@ -69,7 +69,7 @@ STBP則における損失関数$L$を\eqrefc{eq:snn:stbp:loss}に示す.
     L = \frac{1}{2S} \sum_{s=1}^{S} \left(\bm{y}_s - \frac{1}{T}\sum_{t=1}^{T} \bm{o}_s^{t,L}\right)^2 \label{eq:snn:stbp:loss}
 \end{equation}
 ここで, $\bm{y}_s, \bm{o}_s^{t,l}$はそれぞれ$s$番目のサンプルにおける教師データとSNNの出力を表す.
-また, $\frac{1}{T}\sum_{t=1}^{T} \bm{o}_s^{t,L}$は, 単位時間当たりのスパイクの密度を表す.
+また, $1/T\sum_{t=1}^{T} \bm{o}_s^{t,L}$は, 単位時間当たりのスパイクの密度を表す.
 STBP則では, 教師データとSNNの単位時間当たりのスパイク密度の損失が小さくなるように, ニューラルネットワークの重みとバイアスを更新する.
 
 
@@ -86,8 +86,8 @@ STBP則におけるニューラルネットワークの重み$\bm{W}$とバイ�
     &= \sum_{t=1}^{T} \frac{\partial L}{\partial \bm{v}^{t,l}}  \frac{\partial \bm{v}^{t,l}} {\partial \bm{x}^{t,l}} \frac{\partial \bm{x}^{t,l}}{\partial \bm{W}^{l}} 
     = \sum_{t=1}^{T} \frac{\partial L}{\partial \bm{v}^{t,l}} \bm{o}^{t,l-1 \top} \label{eq:stbp:w}
 \end{align}
-ここで, $\bm{o}^{t,l-1 \top}$は$t$時刻における第$l-1$層の出力の転置ベクトルを表す.
-\eqrefc{eq:stbp:b}と\eqrefc{eq:stbp:w}より, ニューラルネットワークの重み$\bm{W}$とバイアス$b$の勾配は, 損失関数$L$に対する内部状態$\bm{v}$の勾配$\partial L / \partial \bm{v}^{t,l}$によって計算できる.
+ここで, $\bm{o}^{t,l-1 \top}$は時刻$t$における第$l-1$層の出力の転置ベクトルを表す.
+\eqrefc{eq:stbp:b}と\eqrefc{eq:stbp:w}より, ニューラルネットワークの重み$\bm{W}$とバイアス$\bm{b}$の勾配は, 内部状態$\bm{v}$に対する損失関数$L$の勾配$\partial L / \partial \bm{v}^{t,l}$によって計算できる.
 
 
 次に$\partial L / \partial \bm{v}^{t,l}$を求めるが, これは以下の4つのパターンによって場合分けして計算することができる.
@@ -186,7 +186,7 @@ $t<T, l<L$の場合
 これらの近似関数はどの形状であっても, その学習精度は大きく変動しないことが知られている.
 本研究では, \eqrefc{eq:stbp:g3}のfast sigmoid関数を用いることでSTBP則での学習を行った.
 
-以上よりSTBP則では, 内部状態の勾配\eqrefc{eq:stbp:v:case1} - \eqrefc{eq:stbp:v:case4}と導関数の近似を用いることで, 時空間方向に対して重み$\bm{W}$とバイアス$\bm{b}$を\eqrefc{eq:stbp:b}と\eqrefc{eq:stbp:w}によって学習することが可能となる.
+以上よりSTBP則では, 内部状態の勾配 (\eqrefc{eq:stbp:v:case1} - \eqrefc{eq:stbp:v:case4})と導関数の近似を用いることで, 時空間方向に対して重み$\bm{W}$とバイアス$\bm{b}$を\eqrefc{eq:stbp:b}と\eqrefc{eq:stbp:w}によって学習することが可能となる.
 
 \begin{figure}[htb]
     \centering

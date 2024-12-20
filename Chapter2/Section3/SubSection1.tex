@@ -18,10 +18,10 @@
 \begin{align}
     P[1] = \frac{\left(\lambda \it{\Delta} t\right)^1}{1!} e^{-\lambda \it{\Delta} t} = \lambda \it{\Delta} t + o(\it{\Delta} t) \simeq \lambda \it{\Delta} t \label{eq:poisson:distribution:approximation}
 \end{align}
-本実験では$\it{\Delta} t = 1, \lambda=0.1$を用いて, 基準速度の入力スパイク$o_{base}(t)$の生成を行った.
+本実験では$\it{\Delta} \mathrm{ t = 1, \lambda=0.1}$を用いて, 基準速度の入力スパイク$o_{base}(t)$の生成を行った.
 
 また, 基準速度に対して$a$倍のタイムスケーリングを行った入力スパイク$o_a(t)$を生成する.
-$o_a(t)$の生成は, 基準入力スパイク$o_{base}(t)$における時刻$t$のスパイクを, 時刻$at$におけるスパイクに時間方向に平行移動させることで生成した.
+$o_a(t)$の生成は, 基準入力スパイク$o_{base}(t)$における時刻$t$のスパイクを, 時刻$at$におけるスパイクに時間方向にシフトさせることで生成した.
 入力速度倍率$a$は, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0の20種類の値を用いた.
 
 次に, 生成した入力スパイク$o_{base}(t)$と$o_a(t)$を通常のSNNと提案手法のSNNに入力する.
@@ -57,7 +57,7 @@ Linear構造は一様分布 (\eqrefc{eq:uniform:distribution}) によって重�
 \begin{equation}
     w_{i,j} \sim \mathcal{U}\left(-\sqrt{N}, \sqrt{N}\right) \label{eq:uniform:distribution}
 \end{equation}
-ここで, $N$は入力ニューロン数である.
+ここで, $N$は各層の入力ニューロン数である.
 また, CNN構造は\eqrefc{eq:he:initialization}に示すHeの初期化\cite{heinit} に基づく分布によって重みを初期化した.
 \begin{equation}
     w_{i,j} \sim \mathcal{N}\left(0, \sqrt{\frac{2}{N}}\right) \label{eq:he:initialization}

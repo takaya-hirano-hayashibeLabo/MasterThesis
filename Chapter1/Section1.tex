@@ -1,7 +1,7 @@
 \section{研究背景}
 Spiking Neural Network (SNN)は, 通常のArtificial Neural Network (ANN)と比較して, より脳神経回路を模した数理モデルである.
 脳における電気パルス信号を介した神経ダイナミクスを数理モデルとして持つため, SNNはその生物的妥当性が高い.
-また, SNNをニューロモーフィックデバイスと呼ばれる専用の計算機を用いて実装することでその消費電力を削減できることも知られている.
+また, SNNはニューロモーフィックデバイスと呼ばれる専用の計算機を用いて実装することでその消費電力を削減できることも知られている.
 その適用範囲は広く, 物体認識 (\tabref{tab:snnyolo}) や言語モデル (\tabref{tab:spinnaker}) , ロボットの自己位置推定とマッピング (\figref{fig:snnslam}) などのタスクにおいてその有効性が示されている\cite{yamazaki2022spiking, snnyolo, s23063037, spinnaker,snnslam}.
 さらに, SNNは入力ノイズに対するロバスト性が高いとされている.
 ガウシアンノイズなどの画像認識における入力画像へのノイズに対するロバスト性 (\figref{fig:robust:gaussian}) \cite{zhao2022spiking}や, SNNを用いて学習した強化学習エージェントのノイズによるパフォーマンス低下を抑制する結果 (\figref{fig:robust:atari}) が報告されている\cite{patel2019improved}.

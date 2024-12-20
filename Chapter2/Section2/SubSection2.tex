@@ -2,14 +2,14 @@
 
 \subsubsection{入力スパイク列の速度変化に対する理想的なSNNの内部状態の定式化}
 本手法では, 入力速度変化に対してSNNの内部状態変化が依存しない状態を理想的と考える.
-そのため, 入力スパイク$o(t)$が$a$倍のタイムスケーリングに対して, SNNの内部状態$v(t)$も同様に$a$倍のタイムスケーリングになることが望ましい.
-ここで, $a$倍のタイムスケーリングとは, 時刻$t_i$における値が時刻$at_i$における値になることを意味する.
+そのため, 入力スパイク$o(t)$の$a$倍のタイムスケーリングに対して, SNNの内部状態$v(t)$も同様に$a$倍のタイムスケーリングになることが望ましい.
+ここで, $a$倍のタイムスケーリングとは, 時刻$t_i$における値が時刻$at_i$における値に時間シフトすることを意味する.
 LIFモデル (\eqrefc{eq:lif}) を用いて, 理想状態における入力スパイク$o(t)$と内部状態$v(t)$を表すと\eqrefc{eq:ideal:state}となる.
 \begin{align}
     \tau \frac{dv\left(at\right)}{dt} &= -\left(v\left(at\right) - v_{rest}\right) + r i\left(at\right) \notag \\
      &= -\left(v\left(at\right) - v_{rest}\right) + r \left( wo\left(at\right) + b \right) \label{eq:ideal:state}
 \end{align}
-ここで, 簡易化のためにSNNにおけるある1ニューロンについてのみを考える.
+ここで, 簡易化のためにSNNにおける, ある1ニューロンについてのみを考える.
 $o(at), v(at)$はそれぞれ$a$倍のタイムスケーリングを行った入力スパイクとSNNの内部状態を表す.
 また, $r, \tau$はそれぞれ理想状態における膜抵抗と時定数を表す.
 
@@ -25,8 +25,8 @@ $o(at), v(at)$はそれぞれ$a$倍のタイムスケーリングを行った入
 
 \subsubsection{入力スパイク列の速度変化に対する実際のSNNの内部状態の定式化}
 次に, 入力スパイク列の速度変化が生じたときの実際のSNNの内部状態を定式化する.
-入力スパイク$o(t)$に対して$a$倍のタイムスケーリングが生じた場合, 実際の内部状態$v(t)$に対して単純なタイムスケーリングが生じるとは限らない.
-そのため, このときの入力スパイク$o(t)$と内部状態$v(t)$を表すと\eqrefc{eq:actual:state}となる.
+入力スパイク$o(t)$に対して$a$倍のタイムスケーリングが生じた場合, 実際の内部状態$v(t)$は単純なタイムスケーリングが生じるとは限らない.
+そのため, このときの入力スパイク$o(t)$と内部状態$v(t)$をLIFモデルを用いて表すと\eqrefc{eq:actual:state}となる.
 \begin{align}
     \tau_{actual} \frac{dv\left(t\right)}{dt} &= -\left(v\left(t\right) - v_{rest}\right) + r_{actual} i\left(at\right) \notag \\
      &= -\left(v\left(t\right) - v_{rest}\right) + r_{actual} \left( wo\left(at\right) + b \right) \label{eq:actual:state}

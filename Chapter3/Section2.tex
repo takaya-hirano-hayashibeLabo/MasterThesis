@@ -1,0 +1,72 @@
+\section{結果2 ジェスチャー分類問題における入力速度変化に対するモデル精度評価}
+提案手法をジェスチャー分類問題に適用した際の, 入力速度変化に対するモデル精度評価を行った結果を示す.
+ジェスチャー動画全体の速度倍率を変化させた場合と, ジェスチャーの途中で速度倍率を変化させた場合のモデル精度評価を行った.
+
+\subsection{モデル学習結果}
+通常のSNN, Parametric-SNN, 提案手法を用いたSNNのモデル学習曲線を\figref{fig:result2:1:snn} - \figref{fig:result2:1:proposed}に示す.
+それぞれの学習曲線において, Train Loss, Validation Loss, Train Accuracy, Validation Accuracyはそれぞれ, 学習データに対する損失誤差, 検証データに対する損失誤差, 学習データに対する分類精度, 検証データに対する分類精度を表す.
+全てのモデルにおいて損失曲線, 精度曲線ともに収束しており, モデルの学習は正常に行われた.
+また, 入力速度変化に対するモデル精度の検証では, 学習の際に最もValidation Accuracyが高いモデルを用いた.
+検証に用いたモデルについては\tabref{tab:result2:model:parameter}に示す.
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{ジェスチャー分類問題の学習曲線 : 通常のSNN}
+    \label{fig:result2:1:snn}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{ジェスチャー分類問題の学習曲線 : Parametric-SNN}
+    \label{fig:result2:1:parametric:snn}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{ジェスチャー分類問題の学習曲線 : 提案手法を用いたSNN}
+    \label{fig:result2:1:proposed}
+\end{figure}
+
+\begin{table}[htb]
+    \centering
+    \caption{ジェスチャー分類問題の検証に用いたモデル}
+    \label{tab:result2:model:parameter}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Model}& \textbf{Epoch} & \textbf{Accuracy Mean} & \textbf{Accuracy Std}\\
+        \hline
+        SNN &  211 & 0.878 & 0.073\\
+        Parametric-SNN & 220 & 0.909 & 0.086\\
+        Proposed & 222 & 0.920 & 0.086\\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\subsection{全体の入力速度変化に対するモデル精度評価}
+入力ジェスチャーの各タイムスケール$a$に対するモデル精度の変化を\figref{fig:result2:2}に示す.
+横軸$a$は入力スパイクのタイムスケール倍率, 縦軸は各タイムスケールにおけるモデル精度を表す.
+また, 青色が通常のSNN, 青緑色がParametric-SNN, 黄緑色が提案手法を用いたSNNを表す.
+通常のSNN, Parametric-SNNは, タイムスケール$a$が$1.0$から離れると, そのモデル精度が低下していることがわかる.
+提案手法は, タイムスケール$a$が$1.0$よりも大きい場合 (入力速度が遅くなる場合) において, そのモデル精度の低下が抑制される結果となった.
+また, タイムスケール$a$が$1.0$よりも小さい場合においては, 通常のSNN, Parametric-SNNと比較すると, モデル精度の低下が抑制される結果となった.
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{ジェスチャー分類問題の学習曲線 : 通常のSNN}
+    \label{fig:result2:2}
+\end{figure}
+
+
+\subsection{途中で速度が変化する場合}
+途中で入力速度が変化する場合のモデル精度を\figref{fig:result2:3}に示す.
+各グラフのアルファベットは速度変化のパターンを表す (\tabref{tab:model:parameter:speed:change}).
+また, 青色が通常のSNN, 青緑色がParametric-SNN, 黄緑色が提案手法を用いたSNNを表す.
+\figref{fig:result2:3}より, 提案手法のみ, 学習時の速度の有無に関わらず, モデル精度が維持される結果となった.
+これらの結果より, 提案手法は動画分類問題において, 未学習の速度に対するモデル精度の低下を抑制されることが示された.
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{ジェスチャー分類問題の学習曲線 : 通常のSNN}
+    \label{fig:result2:2}
+\end{figure}

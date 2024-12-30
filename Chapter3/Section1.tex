@@ -1,5 +1,104 @@
-\section{節のタイトル}
-この文書はサンプルです．
+\section{結果1 入力速度変化に対する内部状態変化の検証結果}
+入力スパイクのタイムスケーリングに対して, 本手法を用いることで, SNNの内部状態をタイムスケーリングに近似可能であることを実験的に示す.
+本節では, 入力速度変化に対する内部状態変化の結果を定量的, 定性的に示す.
 
-\subsection{項のタイトル}
-この文書はサンプルです．
+\subsection{入力速度変化に対する内部状態変化の定量評価}
+各ネットワーク構造 (\tabref{tab:model:parameter:linear} - \tabref{tab:model:parameter:resnet}) における入力速度変化に対する内部状態変化の結果を\figref{fig:result1:1:linear} - \figref{fig:result1:1:resnet} に示す.
+横軸$a$は入力スパイクのタイムスケール倍率, 縦軸は$a=1.0$のときの内部状態と各タイムスケール倍率$a$に置ける内部状態とのMSEを表す.
+ここで, タイムスケール$a$は値が小さいほど入力スパイクの速度が速く, 値が大きいほどその速度が遅いことを表す.
+また, 青色の破線が通常のSNN, 黄緑色の実線が本手法を用いたSNNを表す.
+
+\figref{fig:result1:1:linear}, \figref{fig:result1:1:cnn}, \figref{fig:result1:1:cnn:dropout}, \figref{fig:result1:1:resnet}より, Linear, CNN, CNN+Dropout, ResNet構造は, 各タイムスケール$a$におけるMSEが小さい値を示した.
+特に, タイムスケール$a$が$1.0$よりも大きく, 入力速度が低速化する場合において, 提案手法のMSEが通常のSNNのMSEよりも小さい値を示した.
+一方で, \figref{fig:result1:1:cnn:batchnormalization}より, CNN + BatchNormalization構造は提案手法の各タイムスケール$a$におけるMSEが通常のSNNのMSEよりも大きい値を示した.
+CNN+BatchNormalization以外の構造とは対照的に, タイムスケール$a$が$1.0$よりも大きく, 入力速度が遅くなるほど, その内部状態変化が大きくなる結果を示した.
+これらの結果から, Linear, CNN, CNN+Dropout, ResNet構造は, 提案手法を用いることで, 入力速度変化に対する内部状態変化を抑制可能であることが示された.
+一方で, CNN+BatchNormalization構造は, 提案手法を用いることによる, 入力速度変化に対する内部状態変化の抑制が困難であることが示された.
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{Linear構造}
+    \label{fig:result1:1:linear}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{CNN構造}
+    \label{fig:result1:1:cnn}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{CNN + Dropout構造}
+    \label{fig:result1:1:cnn:dropout}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{CNN + BatchNormalization構造}
+    \label{fig:result1:1:cnn:batchnormalization}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{ResNet構造}
+    \label{fig:result1:1:resnet}
+\end{figure}
+
+
+\clearpage
+\subsection{入力速度変化に対する内部状態変化の定性評価}
+各ネットワーク構造におけるタイムスケール$a=3.0$の場合の内部状態変化を\figref{fig:result1:2:linear} - \figref{fig:result1:2:resnet}に示す.
+5段に分割されたそれぞれのグラフは, 上段3つのタイムスケール$a=1.0$のときの基準となる内部状態に関するグラフと, 下段2つの入力速度が変化したときの内部状態に関するグラフに分けられる.
+まず上段については, 最上段からタイムスケール$a=1.0$の場合の入力スパイク$o_{base}(t)$, タイムスケール$a=1.0$の入力スパイク$o_{base}(t)$が入力されたときの内部状態$v_{base}(t)$, $v_{base}(t)$を線形補間によって時間方向にタイムスケーリングした場合の内部状態$v_{base}(at)$を表す.
+また下段については, タイムスケール$a=3.0$とした場合の入力スパイク$o_{a=3.0}(t)$, タイムスケール$a=3.0$の入力スパイク$o_{a=3.0}(t)$が入力されたときの内部状態$v_{a=3.0}(t)$を表す.
+さらに, 最下段の内部状態$v_{a=3.0}(t)$では, 青色の破線が通常のSNN, 黄緑色の実線が提案手法を用いたSNNを表す.
+
+本手法は, 入力スパイクのタイムスケーリングに対して, 内部状態も同様にタイムスケーリングに近似することを目指した手法である.
+そのため定性的には, 各ネットワーク構造におけるグラフにおいて, タイムスケール$a=3.0$の入力スパイク$o_{a=3.0}(t)$が入力されたときの内部状態$v_{a=3.0}(t)$ (グラフ最下段) が, タイムスケール$a=1.0$の入力スパイク$o_{base}(t)$が入力されたときの内部状態を線形補間した$v_{base}(at)$ (グラフ3段目) に近似できていることが望ましい結果である.
+\figref{fig:result1:2:linear}, \figref{fig:result1:2:cnn}, \figref{fig:result1:2:cnn:dropout}, \figref{fig:result1:2:resnet}より, Linear, CNN, CNN+Dropout, ResNet構造は, 提案手法の内部状態$v_{a=3.0}(t)$の方が, 通常のSNNの内部状態と比較して, $v_{base}(at)$に近似できていることがわかる.
+一方で, CNN+BatchNormalization構造は, 提案手法の内部状態$v_{a=3.0}(t)$の方が, 通常のSNNの内部状態と比較して, $v_{base}(at)$から値が大きくはずれていることがわかる.
+これらの結果から, Linear, CNN, CNN+Dropout, ResNet構造は, 提案手法を用いることで, 定性的にも入力速度変化に対する内部状態変化を抑制可能であることが示された.
+一方で, CNN+BatchNormalization構造は, 提案手法を用いることによる, 入力速度変化に対する内部状態変化の抑制が困難であることが示された.
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{Linear構造}
+    \label{fig:result1:2:linear}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{CNN構造}
+    \label{fig:result1:2:cnn}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{CNN + Dropout構造}
+    \label{fig:result1:2:cnn:dropout}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{CNN + BatchNormalization構造}
+    \label{fig:result1:2:cnn:batchnormalization}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{ResNet構造}
+    \label{fig:result1:2:resnet}
+\end{figure}
+
+\clearpage

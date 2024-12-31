@@ -1,0 +1,87 @@
+\section{結果3 ロボットマニピュレータ軌道予測問題における速度変化に対するモデル精度評価}
+提案手法をロボットマニピュレータのエンドエフェクタ軌道予測問題に適用し, 目標軌道速度が変化した際のモデル精度評価を行った結果を示す.
+
+\subsection{モデル学習結果}
+通常のSNN, 提案手法を用いたSNNのモデル学習曲線を\figref{fig:result3:1:snn} - \figref{fig:result3:1:proposed}に示す.
+それぞれの学習曲線において, Train Loss, Validation Lossはそれぞれ, 学習データに対する損失誤差, 検証データに対する損失誤差を表す.
+どちらのモデルも損失曲線が収束しており, モデルの学習は正常に行われた.
+また, 目標軌道速度の変化に対するモデル精度の検証では, 学習の際に最もValidation Lossが小さいモデルを用いた.
+検証に用いたモデルについては\tabref{tab:result3:model:parameter}に示す.
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{マニピュレータ軌道予測問題の学習曲線 : 通常のSNN}
+    \label{fig:result3:1:snn}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{マニピュレータ軌道予測問題の学習曲線 : 提案手法}
+    \label{fig:result3:1:proposed}
+\end{figure}
+
+\begin{table}[htb]
+    \centering
+    \caption{マニピュレータ軌道予測問題の検証に用いたモデル}
+    \label{tab:result3:model:parameter}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Model}& \textbf{Epoch} & \textbf{Loss Mean} & \textbf{Loss Std}\\
+        \hline
+        SNN &  196 & 0.0139 & 0.0023\\ %dev/workspace/prj_202409_2MR/laplace-version/train-trajectory/output/20241112/eight_figure_shallow3/snn_beta0.95_seq50_res500/result/models/best-score.json
+        Proposed & 188 & 0.0124 & 0.0017\\
+        \hline
+    \end{tabular}
+\end{table}
+\clearpage
+
+
+\subsection{目標軌道速度変化に対する予測軌道の定量評価}
+目標軌道速度変化に対する予測軌道評価の結果を\figref{fig:result3:2}に示す.
+横軸は目標軌道のタイムスケール$a$, 縦軸は予測軌道と目標軌道の誤差であるMAEを表す.
+また, 青色が通常のSNN, 黄緑色が提案手法を用いたSNNを表す.
+さらに, 軌道は$x, y$軸の2軸について評価を行った.
+\figref{fig:result3:2}より, 通常のSNNは学習速度である$a=1.0$から, 目標タイムスケールが離れるほど, その誤差が大きくなる結果となった.
+一方で, 提案手法を用いたSNNでは, 目標タイムスケールが$a=1.0$が離れた場合であっても, 通常のSNNと比較して, その誤差が小さい値を示した.
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{目標軌道速度変化に対する予測軌道誤差}
+    \label{fig:result3:2}
+\end{figure}
+
+
+\subsection{目標軌道速度変化に対する予測軌道の定性評価}
+目標タイムスケール$a=0.5, 1.0, 3.0$におけるマニピュレータのエンドエフェクタの軌道を\figref{fig:result3:3:a0.5} - \figref{fig:result3:3:a3.0}に示す.
+グラフの横軸, 縦軸はそれぞれ, エンドエフェクタの$x, y$座標を表す.
+ここで, $z=0.3$ mの平面で固定している.
+また, グラフにおける軌道の色は時間の経過を表す.
+さらに, 黒の破線は目標軌道を表す.
+学習速度である$a=1.0$の場合は, 通常のSNN, 提案手法を用いたSNNはともにその軌道が目標軌道に追従しており, 予測が正常に行われていることがわかる.
+一方で, $a=0.5, 3.0$の場合は, 通常のSNNは目標軌道から外れていることがわかる.
+学習時よりも速い速度である$a=0.5$の場合は, 目標軌道よりも大きな軌道となっている.
+また, 学習速度よりも遅い速度である$a=3.0$の場合は, 目標軌道よりも小さな軌道を描き, 最終的に軌道の動きが停止していることがわかる.
+しかしながら, 提案手法を用いたSNNでは, 目標軌道速度の変化に関わらず, 目標軌道を追従した軌道を描いていることがわかる.
+これらの結果から, 提案手法を用いることで, 時系列予測における入力速度変化に対して頑健なモデルの構築が可能であることが示唆された.
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{目標軌道速度変化に対する予測軌道 : $a=0.5$}
+    \label{fig:result3:3:a0.5}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{目標軌道速度変化に対する予測軌道 : $a=1.0$}
+    \label{fig:result3:3:a1.0}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.7\textwidth, inkscapelatex=false]{dummy/dummy_img}
+    \caption{目標軌道速度変化に対する予測軌道 : $a=3.0$}
+    \label{fig:result3:3:a3.0}
+\end{figure}
+
+

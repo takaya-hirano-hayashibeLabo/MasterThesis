@@ -1,5 +1,31 @@
-\section{節のタイトル}
-この文書はサンプルです．
+\section{提案手法が適用可能なネットワーク構造}
+節\ref{sec:result1}において, 様々なネットワーク構造を持つSNNに提案手法を適用し, 入力速度変化に対する内部状態の挙動を検証した.
+その結果, Linear, CNN, CNN+Dropout, ResNet構造では提案手法を用いることで, 入力スパイクのタイムスケーリングに応じて, 内部状態をタイムスケーリングに近似可能である結果となった.
+これは, SNNの1つのニューロンについて導出した内部状態タイムスケーリング条件\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}が, これらのネットワーク構造において成り立つことを示唆する.
+一方で, CNN+BatchNormalization構造では, 提案手法を用いることによる内部状態のタイムスケーリングが困難である結果が得られた.
+このような結果は, BatchNormalization層が入力に対するバイアスの付加に対応する操作を持つことが原因であると考えられる.
+BatchNormalization層は, $M$個のバッチ入力に対してバッチ内で標準化する操作を持つ.
+BatchNormalization層における入力の操作を\eqrefc{eq:batchnormalization:input:mean} - \eqrefc{eq:batchnormalization:input:output}に示す.
+\begin{equation}
+    \mu_B=\frac{1}{M}\sum_{i=1}^{M}x_i \label{eq:batchnormalization:input:mean}
+\end{equation}
+\begin{equation}
+    \sigma_B^2=\frac{1}{M}\sum_{i=1}^{M}(x_i-\mu_B)^2 \label{eq:batchnormalization:input:variance}
+\end{equation}
+\begin{equation}
+    \hat{x}_i=\frac{x_i-\mu_B}{\sqrt{\sigma_B^2+\epsilon}} \label{eq:batchnormalization:input:standardization}
+\end{equation}
+\begin{equation}
+    y_i=\gamma\hat{x}_i+\beta \label{eq:batchnormalization:input:output}
+\end{equation}
+ここで, $x$はバッチ入力, $i$はバッチ内におけるインデックスを表す.
+また, $\mu_B, \sigma_B$はそれぞれバッチ入力の平均, 分散を表す.
+BatchNormalization層では, 計算されたこれらの$\mu_B, \sigma_B$を用いて, 入力$x$の標準化を行い, その結果を$\hat{x}$とする.
+ここで, $\epsilon$は分散が非常に小さい場合でもバッチ正規化を安定させるためのパラメータである.
+その後, $\hat{x}$に対してスケーリング係数$\gamma$とバイアス$\beta$を加算することで, 出力$y$を得る.
 
-\subsection{項のタイトル}
-この文書はサンプルです．
+このような操作によって, バッチ入力$x$に対してバイアスの付加が行われる.
+このバイアスの付加は, 提案手法における条件\eqrefc{eq:approximation:condition2:result}において, 入力スパイクの内部状態への影響を一定に保つための操作である.
+そのため, 提案手法を用いることで, 入力速度変化に対する内部状態のタイムスケーリングが困難であるという結果が得られた.
+
+

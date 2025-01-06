@@ -70,7 +70,7 @@ BatchNormalization層では, 計算されたこれらの$\mu_B, \sigma_B$を用�
 \end{equation}
 ここで, $a$は入力タイムスケールであり, $a=0$は時間の停止を意味するので扱う問題に適さない.
 また, $r, \gamma$はそれぞれLIFモデルにおける膜抵抗 (入力重み), BatchNormalization層における出力スケーリング係数 (出力重み) であり, $r=0, \gamma=0$は入出力の値が全て0になることを意味する.
-このことから, $a, r, \gamma$は0以外の実数値となる.
+このことから, $a, r, \gamma$は0以外の実数値でなければならない.
 そのため, \eqrefc{eq:batchnormalization:lif:approximation:condition3:result}が成り立つためには, バッチ入力の平均値である$\mu_B$が0でなければならない.
 しかしながら, ニューラルネットワークの学習では, 前の層のパラメータが変化するに従って, 各層の入力の分布が変化する内部共変量シフトが発生する\cite{batchnorm}.
 そのため, 学習データの平均を0に整形した場合であっても, BatchNormalization層における入力の平均値を0にすることは困難である.

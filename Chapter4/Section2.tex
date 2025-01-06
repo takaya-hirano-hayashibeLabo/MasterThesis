@@ -1,0 +1,45 @@
+\section{提案手法を用いたジェスチャー認識}
+節\ref{sec:result2}では, 提案手法を用いたSNNのジェスチャー認識精度を検証した.
+結果として, 提案手法を用いたSNNは, 未学習の速度のジェスチャーデータに対する頑健性を示した.
+この結果は, 提案手法によって入力の速度変化に応じてSNNの内部状態をタイムスケーリングすることで, 入力速度変化によらずSNNの出力パターンが一定に保たれたからだと考えられる.
+ジェスチャー認識実験におけるSNNの最終層の内部状態変化を\figref{fig:discussion:snn:a1} - \figref{fig:discussion:snn:a5}に示す.
+\begin{figure}[htbp]
+    \centering
+
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
+        \subcaption{通常のSNN, $a=1.0$}
+        \label{fig:discussion:snn:a1}
+    \end{minipage}
+    \hspace{0.02\textwidth}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
+        \subcaption{提案手法, $a=1.0$}
+        \label{fig:discussion:proposed:a1}
+    \end{minipage}
+
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
+        \subcaption{通常のSNN, $a=5.0$}
+        \label{fig:discussion:snn:a5}
+    \end{minipage}
+    \hspace{0.02\textwidth}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
+        \subcaption{提案手法, $a=5.0$}
+        \label{fig:discussion:proposed:a5}
+    \end{minipage}
+
+
+    \caption[ジェスチャー認識におけるSNN最終層の内部状態変化]{
+        ジェスチャー認識におけるSNN最終層の内部状態変化.
+        (a) 通常のSNN, $a=1.0$.
+        (b) 提案手法, $a=1.0$.
+        (c) 通常のSNN, $a=5.0$.
+        (d) 提案手法, $a=5.0$.
+    }
+\end{figure}

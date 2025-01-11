@@ -2,24 +2,24 @@
 節\ref{sec:result2}では, 提案手法を用いたSNNのジェスチャー認識精度を検証した.
 結果として, 提案手法を用いたSNNは, 未学習の速度のジェスチャーデータに対する頑健性を示した.
 この結果は, 提案手法によって入力の速度変化に応じてSNNの内部状態をタイムスケーリングすることで, 入力速度変化によらずSNNの出力パターンが一定に保たれたからだと考えられる.
-あるジェスチャーをモデルに入力した場合におけるSNNの最終層の内部状態変化を\figref{fig:discussion:test1}, \figref{fig:discussion:test2}に示す.
-\figref{fig:discussion:test1}, \figref{fig:discussion:test2}はそれぞれ, 学習時の速度と比較して, 入力速度が低速倍率$a=5.0$と高速倍率$a=0.5$の場合のSNNの内部状態変化を示す.
+あるジェスチャーをモデルに入力した場合におけるSNNの最終層の内部状態変化を\figref{fig:discussion:snn:a5} - \figref{fig:discussion:dyna:a5}に示す.
+それぞれの図は, 学習時の速度と比較して, 入力速度が低速倍率$a=5.0$と高速倍率$a=0.5$の場合のSNNの内部状態変化を示す.
 横軸は時間を表し, 縦軸は最終層のニューロンのインデックスを表す.
 ここで各ニューロンは分類対象のジェスチャーのクラスに対応している.
 また, 図における色は内部状態の値の大きさを表し, 最も活性化している (黄色の面積が多い) ニューロンがそのモデルの予測クラスに対応する.
 
-学習時速度$a=1.0$を入力したときの内部状態図\figref{fig:discussion:test1:snn:a1}, \figref{fig:discussion:test1:proposed:a1}, \figref{fig:discussion:test2:snn:a1}, \figref{fig:discussion:test2:proposed:a1}より, 通常のSNNも提案手法のSNNも正解ラベルのニューロンが最も活性化しており, 正しく推論ができていることがわかる.
+学習時速度$a=1.0$を入力したときの内部状態図 (\figref{fig:discussion:snn:a5} - \figref{fig:discussion:dyna:a5}における上段の図) より, 通常のSNNも提案手法のSNNも正解ラベルのニューロンが最も活性化しており, 正しく推論ができていることがわかる.
 一方で入力速度が変化すると, 通常のSNNはその内部状態パターンが大きく変化し, 誤った推論を行っていることがわかる.
-低速倍率の入力 (\figref{fig:discussion:test1:snn:a5}) の場合, 正解であるクラス7のニューロンの活性化が小さくなり, クラス2のニューロンの活性化が大きくなっている.
-また, 高速倍率の入力 (\figref{fig:discussion:test2:snn:a02}) の場合, 正解であるクラス1のニューロンの活性化が小さくなり, クラス3, クラス4のニューロンの活性化が大きくなっている.
+低速倍率の入力 (\figref{fig:discussion:snn:a5}) の場合, 正解であるクラス7のニューロンの活性化が小さくなり, クラス2のニューロンの活性化が大きくなっている.
+また, 高速倍率の入力 (\figref{fig:discussion:snn:a05}) の場合, 正解であるクラス1のニューロンの活性化が小さくなり, クラス3, クラス4のニューロンの活性化が大きくなっている.
 このような内部状態の挙動がみられる原因としては, 入力の速度変化によって1ステップあたりの情報量が変化したのにも関わらず, 通常のSNNの内部状態は学習時の速度に依存した変化をしていることが考えられる.
 結果として, 内部状態の活性化パターンが入力速度変化に依存し, 誤った推論を行ったと考えられる.
 しかしながら, 提案手法のSNNは, 入力速度変化による内部状態パターンの変化が小さく, 正しく推論を行っていることがわかる.
 これは, 提案手法を用いることで, 入力速度変化に従って内部状態の変化量を動的に変化させているからだと考えられる.
 特に, この役割は提案手法の条件\eqrefc{eq:approximation:condition1:result}が担うと考えられる.
-入力が低速倍された場合 (\figref{fig:discussion:test1:proposed:a5}), SNNの時定数は提案手法の条件\eqrefc{eq:approximation:condition1:result}によって, 学習時よりも大きな値となる.
+入力が低速倍された場合 (\figref{fig:discussion:dyna:a5}), SNNの時定数は提案手法の条件\eqrefc{eq:approximation:condition1:result}によって, 学習時よりも大きな値となる.
 これによって, 1ステップあたりの内部状態の忘却量は小さくなり, より長い時間で内部状態が変化する.
-また, 入力が高速倍された場合 (\figref{fig:discussion:test2:proposed:a02}) は, 反対にSNNの時定数は学習時よりも小さな値となる.
+また, 入力が高速倍された場合 (\figref{fig:discussion:dyna:a05}) は, 反対にSNNの時定数は学習時よりも小さな値となる.
 これによって, 1ステップあたりの内部状態の忘却量は大きくなり, より短い時間で内部状態が変化する.
 このように, 提案手法を用いることで, 入力速度変化に伴ってSNNの内部状態の変化量を動的に変化させることができる.
 さらに, 時定数の変化は内部状態が単純なタイムスケーリングに近似する値となる.
@@ -27,84 +27,39 @@
 
 \begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
     \centering
-
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{通常のSNN, $a=1.0$}
-        \label{fig:discussion:test1:snn:a1}
-    \end{minipage}
-    \hspace{0.02\textwidth}
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{提案手法, $a=1.0$}
-        \label{fig:discussion:test1:proposed:a1}
-    \end{minipage}
-
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{通常のSNN, $a=5.0$}
-        \label{fig:discussion:test1:snn:a5}
-    \end{minipage}
-    \hspace{0.02\textwidth}
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{提案手法, $a=5.0$}
-        \label{fig:discussion:test1:proposed:a5}
-    \end{minipage}
-
-    \label{fig:discussion:test1}
-    \caption[低速ジェスチャー認識におけるSNN最終層の内部状態変化]{
-        低速ジェスチャー認識におけるSNN最終層の内部状態変化.
-        (a) 通常のSNN, $a=1.0$.
-        (b) 提案手法, $a=1.0$.
-        (c) 通常のSNN, $a=5.0$.
-        (d) 提案手法, $a=5.0$.
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_snn5}
+    \label{fig:discussion:snn:a5}
+    \caption{
+        低速ジェスチャー認識における通常のSNN最終層の内部状態変化
     }
 \end{figure}
 
 \begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
     \centering
-
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{通常のSNN, $a=1.0$}
-        \label{fig:discussion:test2:snn:a1}
-    \end{minipage}
-    \hspace{0.02\textwidth}
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{提案手法, $a=1.0$}
-        \label{fig:discussion:test2:proposed:a1}
-    \end{minipage}
-
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{通常のSNN, $a=0.2$}
-        \label{fig:discussion:test2:snn:a02}
-    \end{minipage}
-    \hspace{0.02\textwidth}
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includesvg[width=1.0\textwidth, inkscapelatex=false]{dummy/dummy_img}
-        \subcaption{提案手法, $a=0.2$}
-        \label{fig:discussion:test2:proposed:a02}
-    \end{minipage}
-
-    \label{fig:discussion:test2}
-    \caption[高速ジェスチャー認識におけるSNN最終層の内部状態変化]{
-        高速ジェスチャー認識におけるSNN最終層の内部状態変化.
-        (a) 通常のSNN, $a=1.0$.
-        (b) 提案手法, $a=1.0$.
-        (c) 通常のSNN, $a=0.2$.
-        (d) 提案手法, $a=0.2$.
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_dyna5}
+    \label{fig:discussion:dyna:a5}
+    \caption{
+        低速ジェスチャー認識における提案手法を用いたSNN最終層の内部状態変化
     }
 \end{figure}
+
+\begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
+    \centering
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_snn0.5}
+    \label{fig:discussion:snn:a05}
+    \caption{
+        高速ジェスチャー認識における通常のSNN最終層の内部状態変化
+    }
+\end{figure}
+
+\begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
+    \centering
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_dyna0.5}
+    \label{fig:discussion:dyna:a05}
+    \caption{
+        高速ジェスチャー認識における提案手法を用いたSNN最終層の内部状態変化
+    }
+\end{figure}
+
 
 \clearpage

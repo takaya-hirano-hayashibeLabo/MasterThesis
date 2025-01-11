@@ -1,11 +1,11 @@
 \pagestyle{empty}
 
 \begin{center}
-    Muscle Roulette! Startt! Muscle Warp! ~Nnnnnn..! Nuun! Nuun!
+    Enhancing Robustness of Spiking Neural Networks to Input Time-Series Variations through Stabilization of Membrane Potential Dynamics
 \end{center}
 \vspace{10mm}
 \begin{center}
-    Shoji Nakayama
+    Takaya Hirano
 \end{center}
 \vspace{10mm}
 
@@ -14,13 +14,60 @@
 \end{center}
 \vspace{10mm}
 
-Nakayamakinnikun (September 17, 1978) is a Japanese male comedian, YouTuber, and bodybuilder. 
-Born in Higashi Ward, Fukuoka City, Fukuoka Prefecture, he was a member of Yoshimoto Kogyo from 2000 to 2021 and freelance after 2022.
-His real name is Shoji Nakayama.
-He graduated from Wahirohigashi Elementary School in Fukuoka City, Wahirokaoka Junior High School in Fukuoka City, and Fukuoka Institute of Technology High School (now Joto High School attached to Fukuoka Institute of Technology).He had a muscular physique since his school days, but was more passionate about basketball than bodybuilding at that time.
-He started muscle training at LBGYM in Kashii during his high school years.After becoming a TV personality, he visited LBGYM in 2005 and 2020 for a commercial TV program in Fukuoka.The program was aired on RKB Mainichi Broadcasting and TNC TV Nishinihon.
-One of her classmates in high school was Motoei Kusakabe, a female judoist and bronze medalist at the Sydney Olympics.After graduating from high school, she entered Yoshimoto Sogo Gakuin (NSC) Osaka School as a 22nd year student [2][5].Before entering NSC, he appeared on the October 30, 1998 broadcast of Asahi Broadcasting Corporation's "Tantei!Night Scoop" on October 30, 1998 [Note 1] [Note 2].His classmates at NSC include Super Maradona, Kazunobu Kubota (Torosomon), and King Kong.After graduating from NSC in 2000, he debuted with Yoshimoto Kogyo as "Nakayamakini-kun," a pin comedian who performs gags using muscles[2].His godfather was Takayuki Haranishi (FUJIWARA), who was also his senior at NSC, but the name he initially invented was simply "Kinnikun" without "Nakayama." In 2001, he joined Yoshimoto Shinki Gekijou, where he played a clerk and a henchman of a yakuza gang.After completing a series of material in which he talks while using his muscular body to show off his muscles, he reports to his older brother (or employer, etc.), "I did all I had to do!I've done all I can do!"[Note 3] In January 2003, he won the judges' special award at the 24th ABC Comedy Newcomer Grand Prix.In 2006, he invented a new character, "Captain Bomber," who was supposed to be "a man from North Carolina who came to Japan to introduce American culture," and made it to the finals of the R-1 Grand Prix that same year.On this occasion, he placed a portrait of Nakayamakin on stage and performed his material as a different person from Kinnikun (even though he denied being called Kinnikun) [Note 4].When asked by his co-star Shinya Ueda (Kurimuchu) about his appearance on Asahi Broadcasting Corporation TV's "Gold Medal of Laughter" under the name Captain☆Bomber, he stubbornly denied that he was Nakayamakini-kun.In the Shinkigeki theater to which he belongs, he has been pushing "Captain Bomber" to the forefront and has started an event "Shinkigeki Bomber!He was also appointed as the image character of "Puururando RiO" at Misaki Park in Misaki Town, Sennan County, Osaka Prefecture, and his name recognition was greatly enhanced.Around the same time, he used his physical training to participate in the then-popular TBS "Who's the Strongest Man?The Fierce Muscle Battle!He has appeared in sports specials such as "The Sportsman No. 1 Championship" and has achieved a number of good results (see below).
+% 2025/01/11 1029 words (英語未修正. 一旦英語abstを作成)
+Spiking Neural Networks (SNNs) are mathematical models that more closely mimic the neural circuits of the brain compared to conventional Artificial Neural Networks (ANNs).
+SNNs exhibit high biological validity as they represent neural dynamics through electrical pulse signals in the brain. Additionally, it is known that implementing SNNs using specialized computing devices called neuromorphic devices can reduce power consumption. 
+Furthermore, SNNs have demonstrated high robustness in inference against input noise.
+These characteristics are utilized across a wide range of fields, including object recognition, robot self-localization, and reinforcement learning, making SNNs a focal point as the next generation of neural networks.
+Generally, it is crucial to capture diverse temporal features in time-series information, such as variations in speed and different frequencies. 
+The biological brain is capable of robustly processing such time-series information.
+For instance, in tasks like speech recognition and video recognition, humans can achieve consistent recognition regardless of the speed, provided the content remains the same.
+As mentioned earlier, SNNs mimic the biological brain and model the temporal changes of neurons.
+Therefore, they are expected to possess high expressiveness and robustness in inference regarding time-series information.
+However, existing SNNs have not fully utilized these temporal characteristics. The Leaky Integrate-and-Fire (LIF) model is often adopted for modeling neuronal dynamics in SNNs due to its mathematical tractability and low computational cost. 
+In the LIF model, the electrical pulse input signals and membrane potentials for each neuron are described by differential equations. 
+Here,the membrane potential is determined by the accumulation of electrical pulse inputs and the decay over time of that accumulation. 
+Consequently, the membrane potential plays a crucial role in capturing the temporal characteristics of input information. 
+However, in the LIF model, the time constant that determines the decay of the membrane potential is a hyperparameter that must be set independently by the model designer. 
+Moreover, the LIF model assigns the same time constant value to all neurons in the SNN. 
+This invariance and singularity of the time constant in SNNs limit their temporal expressiveness and robustness in processing time-series information.
 
+In response to these challenges, prior research has proposed methods to make the time constants of SNNs learnable. 
+Fang et al. introduced the Parametric-SNN, an algorithm that allows not only the weights and biases of the neural network but also the time constants to be learned. 
+In the Parametric-SNN, the time constants are optimized as the network learns, eliminating the need to predefine them as hyperparameters. 
+Additionally, the model is trained to assign different time constants for each layer of the SNN, reflecting the characteristic that adjacent neurons in the brain possess similar temporal properties, thereby enhancing biological validity. 
+As a result, the Parametric-SNN demonstrated superior performance in video recognition tasks compared to conventional SNNs.
+Furthermore, Zheng et al. proposed the DH-SNN, which assigns multiple learnable time constants to a single neuron. 
+In standard SNNs, each neuron typically has one time constant. 
+In contrast, the DH-SNN branches a single neuron to allocate multiple learnable time constants, enabling the learning of more complex temporal representations. 
+Consequently, the DH-SNN exhibited higher performance and noise robustness in tasks such as speech recognition, video recognition, and electroencephalogram (EEG) recognition compared to traditional SNNs.
+Thus, prior studies have enhanced the temporal characteristics of SNNs by making their time constants learnable. 
+However, there are concerns regarding the model's generalization properties with respect to input speed. 
+To effectively learn time constants for diverse speeds, it is necessary to provide training data across a range of speeds. 
+Conversely, datasets that differ only in speed often contain similar information aside from their temporal characteristics, leading to challenges in learning efficiency.
+
+In this study, we aim to construct SNNs capable of accommodating diverse input speeds through the learning of a reference speed alone. 
+To achieve this objective, we propose a method that dynamically alters the parameters of SNNs, including the time constants. 
+Previous research has indicated that while time constants are updated during training, their values remain fixed during inference. 
+In our approach, we introduce a mechanism that allows the time constants to be learnable and to dynamically adjust according to the input speed during inference. 
+This enables the adjustment of the changes in the internal state of the SNNs based on input speed. 
+As a result, we believe this will lead to the construction of SNNs that can perform robust inference independent of input speed.
+Initially, we formalized how to modify parameters such as time constants in SNNs based on input speed. 
+We conducted experiments to validate the effectiveness of our method within SNNs that possess conventional network structures. 
+The results demonstrated that our method can be applied to various architectures, including linear structures, CNNs, dropout structures, and ResNets. 
+Furthermore, we applied our method to video classification and time-series prediction tasks, evaluating its robustness against variations in input speed. 
+In the video classification task, our method effectively mitigated the decline in classification accuracy for videos at untrained speeds compared to traditional SNNs. 
+Additionally, in the time-series prediction task, our method resulted in smaller prediction errors for untrained input speeds compared to conventional SNNs.
+
+To understand the improved classification and prediction accuracy in response to variations in input speed, we examined the membrane potential dynamics of the SNNs. 
+Our findings confirmed that, in both classification and prediction scenarios, the proposed method mitigates changes in the internal state dynamics of SNNs caused by variations in input speed. 
+This suggests that stabilizing the membrane potential dynamics in response to speed changes can lead to the development of SNNs with high generalization performance across varying input speeds.
+
+In future work, applying our method to neuron models that possess greater expressiveness than the LIF model presents a promising direction. 
+The LIF model describes membrane potential changes using first-order differential equations and is the simplest neuron model. 
+In contrast, there exist neuron models that are described by higher-order differential equations or possess recurrent structures. 
+These models can represent more complex temporal dynamics compared to the LIF model. 
+Therefore, by applying this method to these neuron models, it is anticipated that we can acquire more complex temporal representations while constructing SNNs that exhibit robust characteristics against variations in input speed, as demonstrated in this study.
 
 \clearpage
 \pagestyle{fancy}

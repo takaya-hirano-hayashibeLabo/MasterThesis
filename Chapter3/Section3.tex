@@ -34,7 +34,7 @@
 目標軌道速度変化に対する予測軌道評価の結果を\figref{fig:result3:trjerror}に示す.
 横軸は目標軌道のタイムスケール$a$, 縦軸は予測軌道と目標軌道の誤差であるMAEを表す.
 また, 青色が通常のSNN, 黄緑色が提案手法を用いたSNNを表す.
-さらに, 軌道は$x, y$軸の2軸について評価を行った.
+さらに, 軌道は$x, y$軸の2軸について評価を行っている.
 \figref{fig:result3:trjerror}より, 通常のSNNは学習速度である$a=1.0$から, 目標タイムスケールが離れるほど, その誤差が大きくなる結果となった.
 一方で, 提案手法を用いたSNNでは, 目標タイムスケールが$a=1.0$から離れた場合であっても, 通常のSNNと比較して, その誤差が小さい値を示した.
 \begin{figure}[htb]
@@ -46,16 +46,16 @@
 
 
 \subsection{目標軌道速度変化に対する予測軌道の定性評価}
-目標タイムスケール$a=0.5, 1.0, 3.0$におけるマニピュレータのエンドエフェクタの軌道を\figref{fig:result3:3:a0.5} - \figref{fig:result3:3:a3.0}に示す.
-グラフの横軸, 縦軸はそれぞれ, エンドエフェクタの$x, y$座標を表す.
-ここで, $z=0.3$ mの平面で固定している.
+目標タイムスケール$a=0.5, 1.0, 3.0$におけるマニピュレータのエンドエフェクタの軌道を\figref{fig:result3:3:a1.0} - \figref{fig:result3:3:a3.0}に示す.
+グラフの横軸, 縦軸はそれぞれ, エンドエフェクタの$y, x$座標を表す.
+ここで, $z$軸については$z=0.3$ mの平面で固定している.
 また, グラフにおける軌道の色は時間の経過を表す.
 さらに, 赤色の破線は学習時の目標軌道を表す.
-学習速度である$a=1.0$の場合は, 通常のSNN, 提案手法を用いたSNNはともにその軌道が目標軌道に追従しており, 予測が正常に行われていることがわかる.
+\figref{fig:result3:3:a1.0}より, 学習速度である$a=1.0$の場合は, 通常のSNN, 提案手法を用いたSNNはともにその軌道が目標軌道に追従しており, 予測が正常に行われていることがわかる.
 一方で, $a=0.5, 3.0$の場合は, 通常のSNNは目標軌道から外れていることがわかる.
-学習時よりも速い速度である$a=0.5$の場合は, 目標軌道よりも大きな軌道となっている.
-また, 学習速度よりも遅い速度である$a=3.0$の場合は, 目標軌道よりも小さな軌道を描き, 最終的に軌道の動きが停止していることがわかる.
-しかしながら, 提案手法を用いたSNNでは, 目標軌道速度の変化に関わらず, 目標軌道を追従した軌道を描いていることがわかる.
+\figref{fig:result3:3:a0.5:snn}より, 学習時よりも速い速度である$a=0.5$の場合は, 目標軌道から大きくはずれた座標で軌道を描いていることがわかる.
+また, \figref{fig:result3:3:a3.0:snn}より, 学習速度よりも遅い速度である$a=3.0$の場合は, 目標軌道から大きくはずれた後, ある一点でエンドエフェクタが停止する結果となった.
+しかしながら, 提案手法を用いたSNNでは, \figref{fig:result3:3:a0.5:dyna}, \figref{fig:result3:3:a3.0:dyna}より, 目標軌道速度の変化に関わらず, 目標軌道を追従した軌道を描いていることがわかる.
 これらの結果から, 提案手法を用いることで, 時系列予測における入力速度変化に対して頑健なモデルの構築が可能であることが示唆された.
 \begin{figure}[htb]
     \centering
@@ -82,12 +82,14 @@
         \centering
         \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp3_trj_snn_a0.5}
         \subcaption{SNN}
+        \label{fig:result3:3:a0.5:snn}
     \end{minipage}
 
     \begin{minipage}{1.0\textwidth}
         \centering
         \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp3_trj_dyna_a0.5}
         \subcaption{Proposed}
+        \label{fig:result3:3:a0.5:dyna}
     \end{minipage}
 
     \caption{高速倍率目標軌道速度変化に対する予測軌道, $a=0.5$}
@@ -101,12 +103,14 @@
         \centering
         \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp3_trj_snn_a3.0}
         \subcaption{SNN}
+        \label{fig:result3:3:a3.0:snn}
     \end{minipage}
 
     \begin{minipage}{1.0\textwidth}
         \centering
         \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp3_trj_dyna_a3.0}
         \subcaption{Proposed}
+        \label{fig:result3:3:a3.0:dyna}
     \end{minipage}
 
     \caption{低速倍率目標軌道速度変化に対する予測軌道, $a=3.0$}

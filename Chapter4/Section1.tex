@@ -68,7 +68,8 @@ BatchNormalization層では, 計算されたこれらの$\mu_B, \sigma_B$を用�
     \frac{a^2}{s} r \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}}\right)  = \frac{a}{s} r \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}}\right)  
     \label{eq:batchnormalization:lif:approximation:condition3:result}
 \end{equation}
-ここで, $a$は入力タイムスケールであり, $a=0$は時間の停止を意味するので扱う問題に適さない.
+ここで, $a$は入力タイムスケールであり, $a=0$は時間の停止を意味する.
+そのため, $a=0$は扱う問題に適さない.
 また, $r, \gamma$はそれぞれLIFモデルにおける膜抵抗 (入力重み), BatchNormalization層における出力スケーリング係数 (出力重み) であり, $r=0, \gamma=0$は入出力の値が全て0になることを意味する.
 このことから, $a, r, \gamma$は0以外の実数値でなければならない.
 そのため, \eqrefc{eq:batchnormalization:lif:approximation:condition3:result}が成り立つためには, バッチ入力の平均値である$\mu_B$が0でなければならない.

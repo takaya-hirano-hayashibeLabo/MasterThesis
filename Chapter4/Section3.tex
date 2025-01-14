@@ -2,26 +2,27 @@
 
 節\ref{sec:result3}では, 提案手法を用いたSNNのロボットマニピュレータ軌道予測問題におけるモデル精度評価を行った.
 結果として, 提案手法を用いたSNNは未学習の速度に対して, 通常のSNNよりも目標軌道に近い軌道を予測することが可能であった.
-この結果は, 提案手法によって入力の速度変化に応じてSNNの内部状態をタイムスケーリングすることで, 予測軌道もタイムスケーリングされたからだと考えられる.
+この結果は, 提案手法によって入力の速度変化に応じてSNNの内部状態をタイムスケーリングに近似することで, 予測軌道も単純なタイムスケーリングとなったからだと考えられる.
 そこで, 目標軌道速度倍率$a$を変化させたときの, SNNの内部状態の変化と提案手法の有無の関係を調べる.
 \figref{fig:discussion3:snn:a3} - \figref{fig:discussion3:dyna:a05}はそれぞれ, 学習時の速度と比較して, 入力速度が低速倍率$a=3.0$と高速倍率$a=0.5$の場合のSNNの内部状態変化を示す.
 横軸は時間 (s) を表す.
 最上段のグラフはマニピュレータの各関節角度$\bm{q}$を表す.
 50ステップ (3.5 s) 過去までの関節角度軌道$\bm{q}$がThreshold Encodingを通して, SNN特徴抽出器$f^{SNN}_\theta$に入力される.
 2段目のグラフは目標軌道のタイムスケール$a$を表す.
-タイムスケールは$a=1.0$を初期値として, 1 sかけて$a=3.0$と$a=0.5$に線形補間によって変化させた.
+タイムスケールは$a=1.0$を初期値として, 1秒間かけて$a=3.0$と$a=0.5$に線形補間によって変化させた.
 3段目のグラフはSNNの最終層の内部状態を表す.
-ここで, 提案手法においては, $a$でスケーリングした$\bm{\hat{v}^{t,L}}$である.
+各グラフはSNN特徴抽出器$f^{SNN}_\theta$の12次元の出力に対応する.
+ここで, 提案手法においては, $a$でスケーリングした$\bm{{v'}^{t,L}}$である.
 この内部状態が予測器$f^{NN}_\theta$に入力され, 目標手先位置変化量が予測される.
 最終段のグラフは, マニピュレータの手先位置$x,y$の軌道を表す.
 
-目標軌道のタイムスケールが変化する$a=1.0$の時間帯では, 通常のSNN, 提案手法のSNNともに, マニピュレータの手先軌道が周期的に変化していることがわかる.
+目標軌道のタイムスケールが変化する前の$a=1.0$の区間では, 通常のSNN, 提案手法のSNNともに, マニピュレータの手先軌道が周期的に変化していることがわかる.
 さらに, SNNの内部状態も同様に周期的に変化していることがわかる.
 このことから, 学習データの8の字軌道の周期に合わせて, 内部状態も周期的に変化するようにSNNが学習されていると考えられる.
-一方で, 目標軌道のタイムスケールが変化すると, 通常のSNNの手先軌道が安定せず, $a=1.0$のときと比べて, 大きくはずれた軌道をとることがわかる.
+一方で, 目標軌道のタイムスケールが$a=1.0$から変化すると, 通常のSNNでは手先軌道が安定せず, $a=1.0$のときと比べて, 大きくはずれた軌道をとることがわかる.
 低速倍率 (\figref{fig:discussion3:snn:a3}) の場合, 時間経過に従って, SNN内部状態の時間変化が小さくなることがわかる.
 また, 高速倍率 (\figref{fig:discussion3:snn:a05}) の場合, タイムスケールが変化したのにも関わらず, 内部状態の周期は$a=1.0$のときからの変化が小さい.
-このように, 通常のSNNでは, タイムスケール変化による入力速度変化に対応することができない.
+このように, 通常のSNNでは, タイムスケール変化による入力速度変化に応じて, SNNの内部状態の周期が変化していない.
 結果として, 通常のSNNは, 未学習の速度の手先軌道予測が困難であったと考えられる.
 しかしながら, 提案手法のSNNを用いた手先軌道予測では, タイムスケール変化によって, その周期のみが安定的に変化していることがわかる.
 また, 提案手法のSNNの内部状態も, その周期のみが安定的に変化していることがわかる.
@@ -33,36 +34,36 @@
 \begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc3_snn3}
-    \label{fig:discussion3:snn:a3}
     \caption{
         軌道予測における通常のSNN最終層の内部状態変化 (低速倍率変化)
-    }
+        }
+    \label{fig:discussion3:snn:a3}
 \end{figure}
 
 \begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc3_dyna3}
-    \label{fig:discussion3:dyna:a3}
     \caption{
         軌道予測における提案手法のSNN最終層の内部状態変化 (低速倍率変化)
-    }
+        }
+    \label{fig:discussion3:dyna:a3}
 \end{figure}
 
 
 \begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc3_snn0.5}
-    \label{fig:discussion3:snn:a05}
     \caption{
         軌道予測における通常のSNN最終層の内部状態変化 (高速倍率変化)
-    }
+        }
+    \label{fig:discussion3:snn:a05}
 \end{figure}
 
 \begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc3_dyna0.5}
-    \label{fig:discussion3:dyna:a05}
     \caption{
         軌道予測における提案手法のSNN最終層の内部状態変化 (高速倍率変化)
-    }
+        }
+    \label{fig:discussion3:dyna:a05}
 \end{figure}

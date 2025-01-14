@@ -15,27 +15,30 @@
 \vspace{10mm}
 
 % 2025/01/11 1029 words (英語未修正. 一旦英語abstを作成)
-Spiking Neural Networks (SNNs) are mathematical models that more closely mimic the neural circuits of the brain compared to conventional Artificial Neural Networks (ANNs).
-SNNs exhibit high biological validity as they represent neural dynamics through electrical pulse signals in the brain. Additionally, it is known that implementing SNNs using specialized computing devices called neuromorphic devices can reduce power consumption. 
-Furthermore, SNNs have demonstrated high robustness in inference against input noise.
-These characteristics are utilized across a wide range of fields, including object recognition, robot self-localization, and reinforcement learning, making SNNs a focal point as the next generation of neural networks.
-Generally, it is crucial to capture diverse temporal features in time-series information, such as variations in speed and different frequencies. 
-The biological brain is capable of robustly processing such time-series information.
+Spiking Neural Networks (SNNs) are mathematical models that are more biologically realistic than conventional Artificial Neural Networks (ANNs) in representing the neural circuits of the brain.
+SNNs have high biological plausibility because they represent neural dynamics using electrical pulse signals, similar to those in the brain.
+Additionally, it is known that implementing SNNs using specialized computing devices called neuromorphic devices can reduce power consumption. 
+Furthermore, SNNs have demonstrated high robustness against input noise.
+These characteristics are utilized across a wide range of fields, including object recognition, robot self-localization and mapping, and reinforcement learning.
+Therefore, SNNs are receiving significant attention as next-generation neural networks.
+Generally, it is important to extract diverse temporal features in time-series information, such as variations in speed and different frequencies. 
+The human brain is capable of robustly processing such time-series information.
 For instance, in tasks like speech recognition and video recognition, humans can achieve consistent recognition regardless of the speed, provided the content remains the same.
-As mentioned earlier, SNNs mimic the biological brain and model the temporal changes of neurons.
-Therefore, they are expected to possess high expressiveness and robustness in inference regarding time-series information.
-However, existing SNNs have not fully utilized these temporal characteristics. The Leaky Integrate-and-Fire (LIF) model is often adopted for modeling neuronal dynamics in SNNs due to its mathematical tractability and low computational cost. 
-In the LIF model, the electrical pulse input signals and membrane potentials for each neuron are described by differential equations. 
-Here,the membrane potential is determined by the accumulation of electrical pulse inputs and the decay over time of that accumulation. 
-Consequently, the membrane potential plays a crucial role in capturing the temporal characteristics of input information. 
+As mentioned before, SNNs are biologically realistic and describe the dynamics of the human brain.
+Therefore, they are expected to possess high expressiveness and noise-robustness regarding time-series information.
+However, most SNNs have not fully utilized these temporal characteristics. 
+The Leaky Integrate-and-Fire (LIF) model is often used for modeling neuronal dynamics in SNNs because of its mathematical simplicity and low computational cost. 
+In the LIF model, the electrical pulse input signals and membrane potentials are described by differential equations. 
+The membrane potential is determined by the accumulation of electrical pulse inputs and the temporal decay of that accumulation. 
+Consequently, the membrane potential is important in representing the temporal characteristics of input information. 
 However, in the LIF model, the time constant that determines the decay of the membrane potential is a hyperparameter that must be set independently by the model designer. 
 Moreover, the LIF model assigns the same time constant value to all neurons in the SNN. 
-This invariance and singularity of the time constant in SNNs limit their temporal expressiveness and robustness in processing time-series information.
+This invariance and homogeneity of the time constant in SNNs limit their temporal expressiveness and robustness in processing time-series information.
 
 In response to these challenges, prior research has proposed methods to make the time constants of SNNs learnable. 
 Fang et al. introduced the Parametric-SNN, an algorithm that allows not only the weights and biases of the neural network but also the time constants to be learned. 
 In the Parametric-SNN, the time constants are optimized as the network learns, eliminating the need to predefine them as hyperparameters. 
-Additionally, the model is trained to assign different time constants for each layer of the SNN, reflecting the characteristic that adjacent neurons in the brain possess similar temporal properties, thereby enhancing biological validity. 
+Additionally, the model is trained to assign different time constants for each layer of the SNN, reflecting the characteristic that adjacent neurons in the brain possess similar temporal properties, thereby enhancing biological plausibility. 
 As a result, the Parametric-SNN demonstrated superior performance in video recognition tasks compared to conventional SNNs.
 Furthermore, Zheng et al. proposed the DH-SNN, which assigns multiple learnable time constants to a single neuron. 
 In standard SNNs, each neuron typically has one time constant. 
@@ -46,28 +49,29 @@ However, there are concerns regarding the model's generalization properties with
 To effectively learn time constants for diverse speeds, it is necessary to provide training data across a range of speeds. 
 Conversely, datasets that differ only in speed often contain similar information aside from their temporal characteristics, leading to challenges in learning efficiency.
 
-In this study, we aim to construct SNNs capable of accommodating diverse input speeds through the learning of a reference speed alone. 
-To achieve this objective, we propose a method that dynamically alters the parameters of SNNs, including the time constants. 
+In this study, I aim to construct SNNs capable of accommodating diverse input speeds through the learning of a only reference speed. 
+To achieve this objective, I propose a method that dynamically updates the parameters of SNNs, including the time constants. 
 Previous research has indicated that while time constants are updated during training, their values remain fixed during inference. 
-In our approach, we introduce a mechanism that allows the time constants to be learnable and to dynamically adjust according to the input speed during inference. 
-This enables the adjustment of the changes in the internal state of the SNNs based on input speed. 
-As a result, we believe this will lead to the construction of SNNs that can perform robust inference independent of input speed.
-Initially, we formalized how to modify parameters such as time constants in SNNs based on input speed. 
-We conducted experiments to validate the effectiveness of our method within SNNs that possess conventional network structures. 
-The results demonstrated that our method can be applied to various architectures, including linear structures, CNNs, dropout structures, and ResNets. 
-Furthermore, we applied our method to video classification and time-series prediction tasks, evaluating its robustness against variations in input speed. 
-In the video classification task, our method effectively mitigated the decline in classification accuracy for videos at untrained speeds compared to traditional SNNs. 
-Additionally, in the time-series prediction task, our method resulted in smaller prediction errors for untrained input speeds compared to conventional SNNs.
+In my approach, I introduce a mechanism that allows the time constants to be learnable and to dynamically adjust according to the input speed during inference. 
+This enables the adjustment of the changes in the membrane potential of the SNNs based on input speed. 
+As a result, I believe this will lead to the construction of SNNs that can perform robust inference independent of input speed.
+Initially, I formalized how to modify parameters such as time constants in SNNs based on input speed. 
+I conducted experiments to validate the effectiveness of my method within SNNs that possess general network structures. 
+The results demonstrated that my method can be applied to various architectures, including linear structures, CNNs, dropout structures, and ResNets. 
+Furthermore, I applied my method to video classification and time-series prediction tasks, evaluating its robustness against variations in input speed. 
+In the video classification task, my method effectively reduced the decline in classification accuracy for videos at untrained speeds compared to traditional SNNs. 
+Additionally, in the time-series prediction task, my method resulted in smaller prediction errors for untrained input speeds compared to conventional SNNs.
 
-To understand the improved classification and prediction accuracy in response to variations in input speed, we examined the membrane potential dynamics of the SNNs. 
-Our findings confirmed that, in both classification and prediction scenarios, the proposed method mitigates changes in the internal state dynamics of SNNs caused by variations in input speed. 
+To understand the improved classification and prediction accuracy in response to variations in input speed, I examined the membrane potential dynamics of the SNNs. 
+My findings confirmed that, in both classification and prediction scenarios, the proposed method reduces changes in the membrane potential dynamics of SNNs caused by variations in input speed. 
 This suggests that stabilizing the membrane potential dynamics in response to speed changes can lead to the development of SNNs with high generalization performance across varying input speeds.
 
-In future work, applying our method to neuron models that possess greater expressiveness than the LIF model presents a promising direction. 
+In future work, applying my method to neuron models that possess expressiveness than the LIF model presents a promising direction. 
 The LIF model describes membrane potential changes using first-order differential equations and is the simplest neuron model. 
 In contrast, there exist neuron models that are described by higher-order differential equations or possess recurrent structures. 
 These models can represent more complex temporal dynamics compared to the LIF model. 
-Therefore, by applying this method to these neuron models, it is anticipated that we can acquire more complex temporal representations while constructing SNNs that exhibit robust characteristics against variations in input speed, as demonstrated in this study.
+Therefore, by applying this method to these neuron models, it is anticipated that I can acquire more complex temporal representations while constructing SNNs that exhibit robust characteristics against variations in input speed, as demonstrated in this study.
+
 
 \clearpage
 \pagestyle{fancy}

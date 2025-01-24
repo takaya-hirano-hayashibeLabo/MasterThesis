@@ -51,7 +51,7 @@ BatchNormalizationは各ミニバッチを標準化する手法である.
 ResNetは, 深いニューラルネットワークの学習における勾配消失問題を解決するためのモデル構造である.
 入力をそのまま出力に反映させる残差ブロックを持つため, 深いネットワークでも学習が容易になる.
 ここで, 通常のResNetの構造はSNNでは用いることが困難なため, MS-ResNet (Membrane Shortcut-ResNet)\cite{msresnet} を用いた.
-MS-ResNetはニューラルネットワークの各層の出力ではなく, SNNにおけるシナプス電流をスキップ接続することで, 深いSNNでの学習を可能にしている.
+MS-ResNetはニューラルネットワークの各層の出力ではなく, SNNにおけるシナプス電流をスキップ接続 (中間層をスキップ) することで, 深いSNNでの学習を可能にしている.
 
 Linear構造は一様分布 (\eqrefc{eq:uniform:distribution}) によって重みを初期化した.
 \begin{equation}

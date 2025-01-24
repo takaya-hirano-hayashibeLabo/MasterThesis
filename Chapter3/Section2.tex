@@ -6,7 +6,7 @@
 通常のSNN, Parametric-SNN, 提案手法を用いたSNNのモデル学習曲線を\figref{fig:result2:losscurve}, \figref{fig:result2:acccurve}に示す.
 それぞれの曲線におけるtrain, testはそれぞれ学習データ, 検証データに対する損失誤差と精度を表す.
 全てのモデルにおいて損失曲線, 精度曲線ともに収束しており, モデルの学習は正常に行われた.
-また, 入力速度変化に対するモデル精度の検証では, 学習の際に最もValidation Accuracyが高いモデルを用いた.
+また, 入力速度変化に対するモデル精度の検証では, 最もテストデータに対する精度が高いモデルを用いた.
 検証に用いたモデルについては\tabref{tab:result2:model:parameter}に示す.
 \begin{figure}[htb]
     \centering
@@ -61,7 +61,13 @@
 \begin{figure}[htb]
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp2_eval2}
-    \caption{ジェスチャー分類問題の入力速度変化に対するモデル精度評価}
+    \caption{
+        ジェスチャー分類問題の入力速度変化に対するモデル精度評価.
+        A: 学習速度 → 低速倍率.
+        B: 学習速度 → 高速倍率.
+        C: 低速倍率 → 高速倍率.
+        D: 高速倍率 → 低速倍率.    
+    }
     \label{fig:result2:eval2}
 \end{figure}
 

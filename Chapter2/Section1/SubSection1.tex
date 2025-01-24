@@ -24,34 +24,39 @@ LIFモデルでは, 入力シナプス電流$\bm{i}^{t, l}$を, 神経細胞の�
 \end{equation}
 ここで, $\tau$は神経細胞の時定数, $v_{rest}$は内部状態の初期状態, $r$は神経細胞の膜抵抗である.
 
-最後に, 内部状態$\bm{v}^{t, l}$が一定の閾値$v_{th}$を超えたときに出力スパイク$\bm{o}^{t, l}$が1となって出力される (\eqrefc{eq:outputSpike}).
-また, 閾値を超えた内部状態は初期状態へとリセットされる (\eqrefc{eq:outputSpike2}).
+最後に, 内部状態$\bm{v}^{t, l}$が一定の閾値$v_{th}$を超えたときに出力スパイク$\bm{o}^{t, l}$が1となって出力される (\eqrefc{eq:outputSpike1:1}, \eqrefc{eq:outputSpike1:2}).
+また, 閾値を超えた内部状態は初期状態へとリセットされる (\eqrefc{eq:outputSpike2:1}, \eqrefc{eq:outputSpike2:2}).
 
 \begin{equation}
-    \begin{split}
-      \bm{o}^{t, l}&=g\left(\bm{v}^{t, l}\right)\\
-    where\\
-    g\left(x\right)&=\left\{
+  \bm{o}^{t, l}=g\left(\bm{v}^{t, l}\right) \label{eq:outputSpike1:1}
+\end{equation}
+\begin{equation}
+  \begin{split}
+    \text{where} \hspace{3cm}\ \\
+    g\left(x\right)=\left\{
       \begin{alignedat}{2}
         1 &\:\left(x{\geq}v_{th}\right)\\
         0 &\:\left(x{<}v_{th}\right)
       \end{alignedat}
-    \right. 
-    \end{split} \label{eq:outputSpike}
-  \end{equation}
+    \right. \label{eq:outputSpike1:2}
+  \end{split}
+\end{equation}
 
-  \begin{equation}
-    \begin{split}
-      \bm{v}^{t, l}&=h\left(\bm{v}^{t, l}\right)\\
-    where\\
-    h\left(x\right)&=\left\{
+\begin{equation}
+  \bm{v}^{t, l}=h\left(\bm{v}^{t, l}\right)
+  \label{eq:outputSpike2:1}
+\end{equation}
+\begin{equation}
+  \begin{split}
+    \text{where} \hspace{3cm}\ \\
+    h\left(x\right)=\left\{
       \begin{alignedat}{2}
         &v_{rset} &\:\left(x{\geq}v_{th}\right)\\
         &x &\:\left(x{<}v_{th}\right)
       \end{alignedat}
-    \right. 
-    \end{split} \label{eq:outputSpike2}
-  \end{equation}
+  \right. 
+  \end{split} \label{eq:outputSpike2:2}
+\end{equation}
 
 
 \begin{figure}[htb]

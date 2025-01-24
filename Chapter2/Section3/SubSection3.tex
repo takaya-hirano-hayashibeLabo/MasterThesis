@@ -1,4 +1,4 @@
-\subsection{実験3 ロボットマニピュレータ軌道予測問題における速度変化に対するモデル精度評価}
+\subsection{実験3: ロボットマニピュレータ軌道予測問題における速度変化に対するモデル精度評価}
 提案手法をロボットマニピュレータのエンドエフェクタ軌道予測問題に適用し, 軌道速度変化に対するモデル精度評価を行う.
 
 \subsubsection{実験環境}
@@ -39,6 +39,15 @@ UR5eの制御は目標手先位置から目標関節角度を逆運動学で求�
 
 
 \subsubsection{モデルの学習}
+モデルによる軌道予測の流れを\figref{fig:model:learning:exp3}に示す.
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.5\textwidth, inkscapelatex=false]{Static/chap2_exp3_diagram}
+    \caption[モデルによる軌道予測の流れ]{
+        モデルによる軌道予測の流れ.
+    }
+    \label{fig:model:learning:exp3}
+\end{figure}
 マニピュレータの関節角度の時系列データ$\bm{q}_{t-T \sim t}$を入力, 次の時刻の目標のエンドエフェクタの位置変化量$\bm{dx}_{t}$を出力とするニューラルネットワークを学習する (\eqrefc{eq:model:learning}).
 \begin{equation}
     \bm{dx}_{t} = f_{\theta}(\bm{q}_{t-T \sim t}) \label{eq:model:learning}

@@ -36,7 +36,7 @@
         \end{minipage}
 
         \caption[LIFモデルの模式図と膜電位の時間変化]{
-            \cite{paramsnn}
+            LIFモデルの模式図と膜電位の時間変化 \cite{paramsnn}.
             (a) LIFニューロンモデルの模式図. $I, V$はそれぞれニューロンへの入力と膜電位. 
             $w, \tau$はそれぞれニューロン間の接続重みと時定数. 
             (b) ニューロンに定常入力が加わったときの膜電位の時間変化. 
@@ -90,7 +90,7 @@ Parametric-SNNでは, ニューロンの重み$w$と同様に時定数$\tau$が�
 \end{figure}
 
 
-\subsection{DH-SNN}
+\subsection{Spiking Neural Network with Dendritic Heterogeneity (DH-SNN)}
 Parametric-SNNでは, 時定数を学習可能とすることで, ニューロンダイナミクスの時間特性に対して多様性を与えた.
 しかし, ニューロンへの入力に対する時間的特性については考慮されていない.
 \figref{fig:single:neuron}に単一ニューロンの模式図を示す.
@@ -119,7 +119,7 @@ Parametric-SNNでは, 時定数を学習可能とすることで, ニューロ�
         \end{minipage}
 
         \caption[DH-SNNにおける単一ニューロンの模式図]{
-            \cite{dhsnn}
+            DH-SNNにおける単一ニューロンの模式図 \cite{dhsnn}
             (a) 単一ニューロン. $i, u$はそれぞれニューロンへの入力と膜電位. 
             ニューロンへの入力$i$は, 枝分かれした樹状突起からの信号の総和としてモデル化される.
             (b) DH-SNNにおける単一ニューロンの概要図.
@@ -140,7 +140,7 @@ Parametric-SNNでは, 時定数を学習可能とすることで, ニューロ�
     % }
 \end{figure}
 
-Zhengらは, このような樹状突起の時間特性の多様さを表現するDH-SNNを提案した.
+Zhengらは, このような樹状突起の時間特性の多様さを表現するSpiking Neural Network with Dendritic Heterogeneity (DH-SNN) を提案した.
 \figref{fig:dhsnn}にDH-SNNにおける単一ニューロンの概要図を示す.
 時定数$\beta$を持つ1つのニューロンに対して, $d$個の樹状突起を接続する.
 さらに, それぞれの樹状突起に対して$\alpha$で表される時定数を割り当てる.
@@ -170,7 +170,7 @@ DH-SNNを用いることで, 音声認識や動画認識, 脳波認識におい�
         \end{minipage}
 
         \caption[DH-SNNにおける精度比較]{
-            \cite{dhsnn}
+            DH-SNNにおける精度比較\cite{dhsnn}.
             (a) 音声認識タスク精度比較.
             灰色が従来のSNN, 青・緑・赤色がDH-SNNを表す.
             DH-SNNにおける色の薄さは樹状突起における時定数の学習の有無を表す.

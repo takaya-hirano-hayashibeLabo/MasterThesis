@@ -61,3 +61,7 @@ LIFモデルでは, 入力シナプス電流$\bm{i}^{t, l}$を, 神経細胞の�
     \caption{SNNの入出力の流れ}
     \label{fig:snn:inoutflow}
 \end{figure}
+
+一般的に, ANNの学習には誤差逆伝播法が用いられる.
+誤差逆伝播法とは, ニューラルネットワークの出力と学習データの損失の勾配を用いて, ネットワークの各パラメータを更新する手法である.
+本研究では, 誤差逆伝播法をSNNの学習に拡張したSpatio-Temporal Backpropagation (STBP)則\cite{stbp}を用いる.

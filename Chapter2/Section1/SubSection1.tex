@@ -16,7 +16,7 @@ SNNの第$l$層における入出力の流れを\figref{fig:snn:inoutflow}に示
 
 次に, 第$l$層のSNNの内部状態$\bm{v}^{t, l}$は, 神経細胞活動の数理モデルによって更新される.
 本研究では, 数理モデルとしてLeaky Integrate-and-Fire (LIF) モデル (\eqrefc{eq:lif}) を用いる.
-LIFモデルでは, 入力シナプス電流$\bm{i}^{t, l}$を, 神経細胞の内部状態$\bm{v}^{t, l}$があるしきい値に達するまで時間的な積分を行う.
+LIFモデルでは, 入力シナプス電流$\bm{i}^{t, l}$を, 神経細胞の内部状態$\bm{v}^{t, l}$がある閾値に達するまで時間的な積分を行う.
 
 \begin{equation}
     {\tau}\frac{d\bm{v}^l}{dt}=-\left(\bm{v}^{t-1,l}-v_{rest}\right)+r\bm{i}^{t, l}

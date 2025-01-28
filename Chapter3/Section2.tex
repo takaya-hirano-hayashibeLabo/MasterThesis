@@ -1,4 +1,4 @@
-\section{結果: 入力速度変化に対する内部状態変化の検証結果} \label{sec:result1}
+\section{結果} \label{sec:result1}
 入力スパイクのタイムスケーリングに対して, 本手法を用いることで, SNNの内部状態をタイムスケーリングに近似可能であることを実験的に示す.
 本節では, 入力速度変化に対する内部状態変化の結果を定量的, 定性的に示す.
 
@@ -23,40 +23,40 @@
 \begin{figure}[htb]
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_linear_mse}
-    \caption{Linear構造}
+    \caption{Linear構造における時間スケールの違いによる内部状態の変化}
     \label{fig:result1:1:linear}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_csnn_mse}
-    \caption{CNN構造}
+    \caption{CNN構造における時間スケールの違いによる内部状態の変化}
     \label{fig:result1:1:cnn}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_dropout_mse}
-    \caption{CNN + Dropout構造}
+    \caption{CNN + Dropout構造における時間スケールの違いによる内部状態の変化}
     \label{fig:result1:1:cnn:dropout}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_batchnrm_mse}
-    \caption{CNN + BatchNormalization構造}
+    \caption{CNN + BatchNormalization構造における時間スケールの違いによる内部状態の変化}
     \label{fig:result1:1:cnn:batchnormalization}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
     \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_resnet_mse}
-    \caption{ResNet構造}
+    \caption{ResNet構造における時間スケールの違いによる内部状態の変化}
     \label{fig:result1:1:resnet}
 \end{figure}
-
-
 \clearpage
+
+
 \subsection{入力速度変化に対する内部状態変化の定性評価}
 各ネットワーク構造におけるタイムスケール$a=3.0$の場合の内部状態変化を\figref{fig:result1:2:linear} - \figref{fig:result1:2:resnet}に示す.
 本手法は, 入力スパイクのタイムスケーリングに対して, 内部状態も同様にタイムスケーリングに近似することを目指した手法である.

@@ -66,6 +66,7 @@ Linear構造は一様分布 (\eqrefc{eq:uniform:distribution}) によって重�
 
 各モデルのネットワーク構造およびパラメータを\tabref{tab:model:parameter:linear} - \tabref{tab:model:parameter:resnet}に示す.
 ここで, CNNにおいて$kernel\_size=3, stride=1, padding=1$とした.
+CNN構造における入出力のサイズは, チャンネル数 $\times$ 高さ $\times$ 幅を表す.
 また, Dropout層における$dr$はドロップアウト率を表す.
 SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}に示したものを全てのモデル構造において用いた.
 時定数$\tau$は, 0.005, 0.05, 0.1の3種類を用いた.
@@ -90,10 +91,10 @@ SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}
         \hline
         \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
         \hline
-        1   & Conv2d & 1x2x2 & 4x2x2 \\
-        2 & AveragePooling2d & 4x2x2 & 4x1x1 \\
-        3 & Conv2d & 4x1x1 & 8x1x1 \\
-        5 & Linear & 8 & 4 \\
+        1   & Conv2d & $1 \times 2 \times 2$ & $4 \times 2 \times 2$ \\
+        2 & AveragePooling2d & $4 \times 2 \times 2$ & $4 \times 1 \times 1$ \\
+        3 & Conv2d & $4 \times 1 \times 1$ & $8 \times 1 \times 1$ \\
+        5 & Linear & $8$ & $4$ \\
         \hline
     \end{tabular}
 \end{table}
@@ -106,10 +107,10 @@ SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}
         \hline
         \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
         \hline
-        1   & Conv2d & 1x2x2 & 4x2x2 \\
-        2 & AveragePooling2d & 4x2x2 & 4x1x1 \\
-        3 & Dropout ($dr=0.3$) & 4x1x1 & 4x1x1 \\
-        4 & Conv2d & 4x1x1 & 8x1x1 \\
+        1   & Conv2d & $1 \times 2 \times 2$ & $4 \times 2 \times 2$ \\
+        2 & AveragePooling2d & $4 \times 2 \times 2$ & $4 \times 1 \times 1$ \\
+        3 & Dropout ($dr=0.3$) & $4 \times 1 \times 1$ & $4 \times 1 \times 1$ \\
+        4 & Conv2d & $4 \times 1 \times 1$ & $8 \times 1 \times 1$ \\
         5 & Dropout ($dr=0.3$) & 8x1x1 & 8x1x1 \\
         6 & Linear & 8 & 4 \\
         \hline
@@ -124,10 +125,10 @@ SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}
         \hline
         \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
         \hline
-        1   & Conv2d & 1x2x2 & 4x2x2 \\
-        2 & BatchNormalization & 4x2x2 & 4x2x2 \\
-        3 & AveragePooling2d & 4x2x2 & 4x1x1 \\
-        4 & Conv2d & 4x1x1 & 8x1x1 \\
+        1   & Conv2d & $1 \times 2 \times 2$ & $4 \times 2 \times 2$ \\
+        2 & BatchNormalization & $4 \times 2 \times 2$ & $4 \times 2 \times 2$ \\
+        3 & AveragePooling2d & $4 \times 2 \times 2$ & $4 \times 1 \times 1$ \\
+        4 & Conv2d & $4 \times 1 \times 1$ & $8 \times 1 \times 1$ \\
         5 & BatchNormalization & 8x1x1 & 8x1x1 \\
         6 & Linear & 8 & 4 \\
         \hline
@@ -143,10 +144,10 @@ SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}
         \hline
         \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size} & \textbf{Residual block nums}\\
         \hline
-        1   & MS-ResNet & 1x2x2 & 4x2x2 & 2\\
-        2 & AveragePooling2d & 4x2x2 & 4x1x1 & - \\
-        3 & MS-ResNet & 4x1x1 & 8x1x1 & 2\\
-        4 & AveragePooling2d & 8x1x1 & 8x1x1 & - \\
+        1   & MS-ResNet & $1 \times 2 \times 2$ & $4 \times 2 \times 2$ & 2\\
+        2 & AveragePooling2d & $4 \times 2 \times 2$ & $4 \times 1 \times 1$ & - \\
+        3 & MS-ResNet & $4 \times 1 \times 1$ & $8 \times 1 \times 1$ & 2\\
+        4 & AveragePooling2d & $8 \times 1 \times 1$ & $8 \times 1 \times 1$ & - \\
         5 & Linear & 8 & 4 & - \\
         \hline
     \end{tabular}
@@ -165,3 +166,5 @@ SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}
         \hline
     \end{tabular}
 \end{table}
+
+\clearpage

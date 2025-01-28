@@ -1,4 +1,4 @@
-\section{実験3: ロボットマニピュレータ軌道予測問題における速度変化に対するモデル精度評価}
+\section{実験3: 軌道予測問題における提案手法の速度変化に対する頑健性評価}
 提案手法をロボットマニピュレータのエンドエフェクタ軌道予測問題に適用し, 軌道速度変化に対するモデル精度評価を行う.
 
 \subsection{実験環境}
@@ -139,10 +139,10 @@ SNNの出力は0か1のスパイクであるため, 連続値であるエンド�
 \begin{align}
     \bm{v}^{t,L} &= f_{\theta}^{SNN}(\bm{q}_{t}) \notag \\
     \bm{\hat{dx}}_{t} &= f_{\theta}^{NN}(\bm{v}^{t,L}) \notag \\
-    \mathcal{L_{MSE}} &= \frac{1}{T} \sum_{t=1}^{T} \left( \bm{dx}_{t} - \bm{\hat{dx}}_{t} \right)^2 \label{eq:exp3:loss}
+    \mathcal{L}_{MSE} &= \frac{1}{T} \sum_{t=1}^{T} \left( \bm{dx}_{t} - \bm{\hat{dx}}_{t} \right)^2 \label{eq:exp3:loss}
 \end{align}
 ここで, $\bm{v}^{t,L}$は時刻$t$におけるSNNの最終層の内部状態, $\bm{\hat{dx}}^{t}$は時刻$t$における予測器の出力, $\bm{dx}^{t}$は時刻$t$における目標エンドエフェクタの位置変化量である.
-また, 損失関数$L_{MSE}$は入力シーケンスの全ての時刻における予測器の出力と教師データの二乗誤差の平均である.
+また, 損失関数$\mathcal{L}_{MSE}$は入力シーケンスの全ての時刻における予測器の出力と教師データの二乗誤差の平均である.
 
 
 \subsection{評価方法}

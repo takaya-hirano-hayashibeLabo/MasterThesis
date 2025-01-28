@@ -9,8 +9,8 @@
 \usepackage{csquotes} % 日本語引用のためのパッケージ
 \usepackage[T1]{fontenc} % 「OT1エンコーディングでは\kが使えない」とかいう意味わかんないコンパイルエラー解消用 (note → https://www.notion.so/15741bdf4d89808fae3ef68818d9452b?pvs=4#15c41bdf4d89803bbbc9c3bf517435ca)
 \usepackage[japanese]{babel} % 参考文献の表示を「参考文献」にする
-\usepackage[backend=biber, sorting=none, maxbibnames=99]{biblatex} % 参考文献用, sorting=noneで引用順を保持, maxbibnames=99で最大99個のauthorを表示
-\addbibresource{ref.bib} %.bibのファイル名指定
+% \usepackage[backend=biber, sorting=none, maxbibnames=99]{biblatex} % 参考文献用, sorting=noneで引用順を保持, maxbibnames=99で最大99個のauthorを表示
+% \addbibresource{ref.bib} %.bibのファイル名指定
 
 \renewcommand{\baselinestretch}{1.2} % 行間を1.2倍に設定
 
@@ -25,7 +25,8 @@
 \usepackage{bm} % 太文字
 \DeclareMathOperator*{\argmax}{argmax} %数式でのargmaxの定義  使い方: \mathop{\arg\max}_{i}
 
-\usepackage{hyperref} % リンクを有効にする
+% \usepackage{hyperref} % リンクを有効にする. 日本語が文字化けするから切っておく (その代わり参照先に飛べなくなるが, 別にいいだろ)
+\usepackage{url}
 
 % キャプション設定 -------------------------------------- %
 \usepackage{caption}
@@ -116,7 +117,9 @@
 
 
 % 参考文献
-\printbibliography % 文献リストを出力
+% \printbibliography % 文献リストを出力
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
 
 
 \end{document}

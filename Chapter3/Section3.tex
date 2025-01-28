@@ -1,5 +1,6 @@
-\section{考察: 提案手法が適用可能なネットワーク構造}
-節\ref{sec:result1}において, 様々なネットワーク構造を持つSNNに提案手法を適用し, 入力速度変化に対する内部状態の挙動を検証した.
+\section{考察}
+\subsection{提案手法が適用可能なネットワーク構造}
+第\ref{sec:result1}節において, 様々なネットワーク構造を持つSNNに提案手法を適用し, 入力速度変化に対する内部状態の挙動を検証した.
 その結果, Linear, CNN, CNN+Dropout, ResNet構造では提案手法を用いることで, 入力スパイクのタイムスケーリングに応じて, 内部状態をタイムスケーリングに近似可能である結果となった.
 これは, SNNの1つのニューロンについて導出した内部状態タイムスケーリング条件\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}が, これらのネットワーク構造において成り立つことを示唆する.
 一方で, CNN+BatchNormalization構造では, 提案手法を用いることによる内部状態のタイムスケーリングが困難である結果が得られた.
@@ -35,7 +36,7 @@ BatchNormalization層では, 計算されたこれらの$\mu_B, \sigma_B$を用�
     \label{eq:batchnormalization:lif}
 \end{align}
 これを踏まえて, BatchNormalization層を用いた場合の提案手法におけるSNN内部状態の定式化を\eqrefc{eq:batchnormalization:lif:ideal}, \eqrefc{eq:batchnormalization:lif:actual}に示す.
-定式化は\ref{method:proposed}節で行った手順と同様に, 理想的なSNNの内部状態 (\eqrefc{eq:batchnormalization:lif:ideal}) と実際のSNNの内部状態 (\eqrefc{eq:batchnormalization:lif:actual}) について行う.
+定式化は第\ref{method:proposed}節で行った手順と同様に, 理想的なSNNの内部状態 (\eqrefc{eq:batchnormalization:lif:ideal}) と実際のSNNの内部状態 (\eqrefc{eq:batchnormalization:lif:actual}) について行う.
 \begin{equation}
     V\left(\frac{s}{a}\right) =  \frac{1}{\tau s +1}\left( 
         \frac{a}{s} v_{rest} +rw 

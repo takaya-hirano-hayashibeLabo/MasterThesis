@@ -52,10 +52,10 @@ Parametric-SNNとは, ニューラルネットワークの重みとバイアス�
         \hline
         \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size} & \textbf{Residual block nums}\\
         \hline
-        1   & MS-ResNet & 2x32x32 & 12x32x32 & 3\\
-        2 & AveragePooling2d & 12x32x32 & 12x16x16 & - \\
-        3 & MS-ResNet & 12x16x16 & 32x16x16 & 3\\
-        4 & AveragePooling2d & 32x16x16 & 32x8x8 & - \\
+        1   & MS-ResNet & $2 \times 32 \times 32$ & $12 \times 32 \times 32$ & 3\\
+        2 & AveragePooling2d & $12 \times 32 \times 32$ & $12 \times 16 \times 16$ & - \\
+        3 & MS-ResNet & $12 \times 16 \times 16$ & $32 \times 16 \times 16$ & 3\\
+        4 & AveragePooling2d & $32 \times 16 \times 16$ & $32 \times 8 \times 8$ & - \\
         5 & Linear & 2048 & 512 & - \\
         6 & Linear & 512 & 11 & - \\
         \hline

@@ -9,7 +9,7 @@ LIFモデル (\eqrefc{eq:lif}) を用いて, 理想状態における入力ス�
     \tau \frac{dv\left(at\right)}{dt} &= -\left(v\left(at\right) - v_{rest}\right) + r i\left(at\right) \notag \\
      &= -\left(v\left(at\right) - v_{rest}\right) + r \left( wo\left(at\right) + b \right) \label{eq:ideal:state}
 \end{align}
-ここで, 簡易化のためにSNNにおける, ある1ニューロンについてのみを考える.
+ここで, 簡易化のためにSNNにおける, ある1ニューロンについてのみを考える (\eqrefc{eq:ideal:state}-\eqrefc{eq:approximation:condition3:result}).
 $o(at), v(at)$はそれぞれ$a$倍のタイムスケーリングを行った入力スパイクとSNNの内部状態を表す.
 また, $r, \tau$はそれぞれ理想状態における膜抵抗と時定数を表す.
 

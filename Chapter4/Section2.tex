@@ -72,3 +72,54 @@
 \end{figure}
 
 
+\subsection{入力速度変化に対するSNNの内部状態変化}
+あるジェスチャーをモデルに入力した場合におけるSNNの最終層の内部状態変化を\figref{fig:discussion2:snn:a5} - \figref{fig:discussion2:dyna:a05}に示す.
+それぞれの図は, 学習時の速度と比較して, 入力速度が低速倍率$a=5.0$と高速倍率$a=0.5$の場合のSNNの内部状態変化を示す.
+横軸は時間を表し, 縦軸は最終層のニューロンのインデックスを表す.
+ここで各ニューロンは分類対象のジェスチャーのクラスに対応している.
+また, 図における色は内部状態の値の大きさを表し, 最も活性化している (黄色の面積が多い) ニューロンがそのモデルの予測クラスに対応する.
+
+学習時速度$a=1.0$を入力したときの内部状態図 (\figref{fig:discussion2:snn:a5} - \figref{fig:discussion2:dyna:a05}における上段の図) より, 通常のSNNも提案手法のSNNも正解ラベルのニューロンが最も活性化しており, 正しく推論することが可能であった.
+しかしながら, 通常のSNNは入力速度変化に従って, 内部状態の活性パターンが大きく変化した.
+\figref{fig:discussion2:snn:a5}より, 低速倍率 ($a=5.0$) の入力において, 正解であるクラス3のニューロンの活性化が小さくなり, クラス8のニューロンの活性化が大きくなっている.
+また, 高速倍率 ($a=0.5$) の入力において, 正解であるクラス1のニューロンの活性化が小さくなり, クラス3, クラス4のニューロンの活性化が大きくなっている.
+一方で, 提案手法のSNNは入力速度変化に伴う, 内部状態の活性パターンの変化が小さい結果となった.
+\figref{fig:discussion2:dyna:a5}, \figref{fig:discussion2:dyna:a05}より, 高速倍率, 低速倍率のどちらの場合であっても, 正解ラベルに対応するニューロンが最も活性化し, 他のニューロンにおいてもその変化が小さいことがわかる.
+これらのことから, 提案手法を用いることで, 入力速度変化による内部状態の活性パターンの変化が抑制されることが示された.
+\begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
+    \centering
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_snn5}
+    \caption{
+        低速ジェスチャー認識における通常のSNN最終層の内部状態変化
+        }
+    \label{fig:discussion2:snn:a5}
+\end{figure}
+
+\begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
+    \centering
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_dyna5}
+    \caption{
+        低速ジェスチャー認識における提案手法を用いたSNN最終層の内部状態変化
+        }
+    \label{fig:discussion2:dyna:a5}
+\end{figure}
+
+\begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
+    \centering
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_snn0.5}
+    \caption{
+        高速ジェスチャー認識における通常のSNN最終層の内部状態変化
+        }
+    \label{fig:discussion2:snn:a05}
+\end{figure}
+
+\begin{figure}[htbp] %画像形式はこのチャプターのreadmeを参照
+    \centering
+    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/disc2_dyna0.5}
+    \caption{
+        高速ジェスチャー認識における提案手法を用いたSNN最終層の内部状態変化
+        }
+    \label{fig:discussion2:dyna:a05}
+\end{figure}
+
+

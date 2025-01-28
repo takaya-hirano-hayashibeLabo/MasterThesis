@@ -1,126 +1,167 @@
-% 2025/01/13 図に合わせて修正 コミット履歴：https://github.com/takaya-hirano-hayashibeLabo/MasterThesis/commit/d3c2c0410353bafa4fe5677984f9039e4b54f507
+\section{実験1: 入力速度変化に対する内部状態変化の検証}
 
-\section{結果1: 入力速度変化に対する内部状態変化の検証結果} \label{sec:result1}
-入力スパイクのタイムスケーリングに対して, 本手法を用いることで, SNNの内部状態をタイムスケーリングに近似可能であることを実験的に示す.
-本節では, 入力速度変化に対する内部状態変化の結果を定量的, 定性的に示す.
+入力速度変化に対する提案手法の条件 (\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}) は, その導出の仮定で入力スパイクのラプラス変換を1とする仮定を用いている.
+また, 計算の簡易化のために, 1つのニューロンにおける入力スパイクと内部状態についてのみ議論を行った.
+そのため, この条件によって, ネットワーク構造を持つSNNの内部状態が入力の速度変化に対して, 厳密にタイムスケーリングが生じるとは言えない.
+そこで実験1では, 入力スパイクのタイムスケーリングに対して, 提案手法を用いることで, その内部状態がタイムスケーリングに近似できることを実験的に検証する.
 
-\subsection{入力速度変化に対する内部状態変化の定量評価}
-各ネットワーク構造 (\tabref{tab:model:parameter:linear} - \tabref{tab:model:parameter:resnet}) における入力速度変化に対する内部状態変化の結果を\figref{fig:result1:1:linear} - \figref{fig:result1:1:resnet} に示す.
-横軸$a$は入力スパイクのタイムスケール倍率, 縦軸は$a=1.0$のときの内部状態と各タイムスケール倍率$a$に置ける内部状態とのMSEを表す.
-ここで, タイムスケール$a$は値が小さいほど入力スパイクの速度が速く, 値が大きいほどその速度が遅いことを表す.
-また, 青色のグラフが通常のSNN, 黄緑色のグラフが本手法を用いたSNNを表す.
-さらに, 時定数の初期値として$\tau=0.005, 0.05, 0.1$の3つの場合の結果を示す.
 
-まずは, Linear構造についての結果を述べる.
-\figref{fig:result1:1:linear}より, Linear構造では, 時定数が大きいほど理想的な内部状態とのMSEが小さい値を示した.
-また同じ時定数の場合, 提案手法のほうが, 通常のSNNと比較して, MSEが小さい結果となった.
-さらに, 提案手法はタイムスケール$a$が$1.0$よりも大きい場合 (入力が低速倍率の場合) において, 理想的な内部状態との差がより小さくなる特徴を示した.
+\subsection{実験概要}
+まず, 基準速度 ($a=1.0$) の入力スパイク$o_{base}(t)$を生成する.
+このとき, 入力スパイク$o_{base}(t)$の生成は, ポアソン分布を用いて行った.
+ポアソン分布を用いたスパイクの生成\cite{poisson}では, 時刻$t$までに$n$回スパイク (=1) が発生する確率$P[n]$は\eqrefc{eq:poisson:distribution}で表される.
+\begin{align}
+    P[n] = \frac{\left(\lambda t\right)^n}{n!} e^{-\lambda t} \label{eq:poisson:distribution}
+\end{align}
+ここで, $\lambda$は入力スパイクの平均発生頻度である.
+さらに, 微小時間$\it{\Delta} t$のうちに1回スパイクが発生する確率は, 1次までのマクローリン展開より\eqrefc{eq:poisson:distribution:approximation}で表される.
+\begin{align}
+    P[1] = \frac{\left(\lambda \it{\Delta} t\right)^1}{1!} e^{-\lambda \it{\Delta} t} = \lambda \it{\Delta} t + o(\it{\Delta} t) \simeq \lambda \it{\Delta} t \label{eq:poisson:distribution:approximation}
+\end{align}
+本実験では$\it{\Delta} \mathrm{ t = 1, \lambda=0.1}$を用いて, 基準速度の入力スパイク$o_{base}(t)$の生成を行った.
 
-次にCNN系の構造についての結果を述べる.
-\figref{fig:result1:1:cnn}, \figref{fig:result1:1:cnn:dropout}, \figref{fig:result1:1:resnet}より, CNN構造, CNN + Dropout構造, ResNet構造では, 提案手法を用いることで, 通常のSNNと比較して, MSEが小さい値を示した.
-時定数の初期値とMSEの関係については, Linear構造とは対称的に, その関係性が小さい結果となった.
-また, タイムスケールとMSEの関係については, Linear構造と同様に, タイムスケールが大きい場合における提案手法の有効性が高い結果となった.
-一方で, \figref{fig:result1:1:cnn:batchnormalization}より, CNN + BatchNormalization構造は提案手法の各タイムスケール$a$におけるMSEが通常のSNNのMSEよりも大きい値を示した.
-さらに, タイムスケール$a$が$1.0$よりも大きい値になるに従って, 提案手法のMSEが大きな値を示す結果となった.
-\begin{figure}[htb]
+また, 基準速度に対して$a$倍のタイムスケーリングを行った入力スパイク$o_a(t)$を生成する.
+$o_a(t)$の生成は, 基準入力スパイク$o_{base}(t)$における時刻$t$のスパイクを, 時刻$at$におけるスパイクに時間方向にシフトさせることで生成した.
+入力速度倍率$a$は, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0の20種類の値を用いた.
+
+次に, 生成した入力スパイク$o_{base}(t)$と$o_a(t)$を通常のSNNと提案手法のSNNに入力する.
+その後, 基準速度入力に対するSNNの最終層の内部状態$v_{base}(t)$と, $a$倍の速度倍率の入力に対するSNNの最終層の内部状態$v_a(t)$の平均二乗誤差 (Mean Squared Error, MSE)を比較する.
+$v_{base}(t)$と$v_a(t)$の誤差が小さくなるほど, 提案手法のSNNの内部状態がタイムスケールに近似できていることを示す.
+ここで, 入力速度を変えているため, $v_{base}(t)$と$v_a(t)$の総タイムステップ数は一致しない.
+そこで, $v_{base}(t)$を線形補間し, $v_{base}(at)$とすることで, 内部状態のタイムステップ数に合わせてその誤差の計算を行った.
+
+\subsection{評価対象モデル}
+以下の5種類のモデルをSNNで構築し, 上記の評価を行った.
+これらは, ニューラルネットワークにおいて一般的に用いられることが多いモデル構造である.
+\begin{itemize}
+    \item Linear
+    \item CNN\cite{cnn}
+    \item CNN + Dropout\cite{dropout}
+    \item CNN + BatchNormalization\cite{batchnorm}
+    \item ResNet\cite{resnet}
+\end{itemize}
+Lienarは入力データに対して線形変換を行う最も基本的なニューラルネットワークモデルである。
+各入力特徴に対して重みを掛け合わせ、バイアスを加算することで出力を生成する.
+CNN (Convolutional Neural Network) は, 畳み込み層とプーリング層を用いて入力データの特徴を抽出するニューラルネットワークモデルである.
+画像のような空間方向に複数次元の特徴を持つデータに対して用いられることが多い.
+Dropoutは過学習を防ぐための正則化手法の一つである.
+学習中にランダムに一部のニューロンの結合重みを0 (=ドロップアウト)にすることで, ネットワークが特定のニューロンに依存することを防ぐ.
+BatchNormalizationは各ミニバッチを標準化する手法である.
+各層の出力がスケーリングされることで勾配消失問題が緩和され, 学習の安定性と速度が向上する.
+ResNetは, 深いニューラルネットワークの学習における勾配消失問題を解決するためのモデル構造である.
+入力をそのまま出力に反映させる残差ブロックを持つため, 深いネットワークでも学習が容易になる.
+ここで, 通常のResNetの構造はSNNでは用いることが困難なため, MS-ResNet (Membrane Shortcut-ResNet)\cite{msresnet} を用いた.
+MS-ResNetはニューラルネットワークの各層の出力ではなく, SNNにおけるシナプス電流をスキップ接続 (中間層をスキップ) することで, 深いSNNでの学習を可能にしている.
+
+Linear構造は一様分布 (\eqrefc{eq:uniform:distribution}) によって重みを初期化した.
+\begin{equation}
+    w_{i,j} \sim \mathcal{U}\left(-\sqrt{N}, \sqrt{N}\right) \label{eq:uniform:distribution}
+\end{equation}
+ここで, $N$は各層の入力ニューロン数である.
+また, CNN構造は\eqrefc{eq:he:initialization}に示すHeの初期化\cite{heinit} に基づく分布によって重みを初期化した.
+\begin{equation}
+    w_{i,j} \sim \mathcal{N}\left(0, \sqrt{\frac{2}{N}}\right) \label{eq:he:initialization}
+\end{equation}
+それぞれの構造において, 上記の分布で初期化した10個のモデルを用意し, 1000通りの入力スパイクに対して内部状態のMSEを計算した.
+
+各モデルのネットワーク構造およびパラメータを\tabref{tab:model:parameter:linear} - \tabref{tab:model:parameter:resnet}に示す.
+ここで, CNNにおいて$kernel\_size=3, stride=1, padding=1$とした.
+また, Dropout層における$dr$はドロップアウト率を表す.
+SNNのLIFモデルにおけるパラメータは\tabref{tab:model:parameter:lif}に示したものを全てのモデル構造において用いた.
+時定数$\tau$は, 0.005, 0.05, 0.1の3種類を用いた.
+\begin{table}[htb]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_linear_mse}
     \caption{Linear構造}
-    \label{fig:result1:1:linear}
-\end{figure}
+    \label{tab:model:parameter:linear}
+    \begin{tabular}{ccc}
+        \hline
+        \textbf{Input size}& \textbf{Hidden size} & \textbf{Output size}\\
+        \hline
+        1   & 8, 8 & 1 \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\begin{figure}[htb]
+\begin{table}[htb]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_csnn_mse}
     \caption{CNN構造}
-    \label{fig:result1:1:cnn}
-\end{figure}
+    \label{tab:model:parameter:cnn}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
+        \hline
+        1   & Conv2d & 1x2x2 & 4x2x2 \\
+        2 & AveragePooling2d & 4x2x2 & 4x1x1 \\
+        3 & Conv2d & 4x1x1 & 8x1x1 \\
+        5 & Linear & 8 & 4 \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\begin{figure}[htb]
+\begin{table}[htb]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_dropout_mse}
     \caption{CNN + Dropout構造}
-    \label{fig:result1:1:cnn:dropout}
-\end{figure}
+    \label{tab:model:parameter:cnn:dropout}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
+        \hline
+        1   & Conv2d & 1x2x2 & 4x2x2 \\
+        2 & AveragePooling2d & 4x2x2 & 4x1x1 \\
+        3 & Dropout ($dr=0.3$) & 4x1x1 & 4x1x1 \\
+        4 & Conv2d & 4x1x1 & 8x1x1 \\
+        5 & Dropout ($dr=0.3$) & 8x1x1 & 8x1x1 \\
+        6 & Linear & 8 & 4 \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\begin{figure}[htb]
+\begin{table}[htb]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_batchnrm_mse}
     \caption{CNN + BatchNormalization構造}
-    \label{fig:result1:1:cnn:batchnormalization}
-\end{figure}
+    \label{tab:model:parameter:cnn:batchnormalization}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size}\\
+        \hline
+        1   & Conv2d & 1x2x2 & 4x2x2 \\
+        2 & BatchNormalization & 4x2x2 & 4x2x2 \\
+        3 & AveragePooling2d & 4x2x2 & 4x1x1 \\
+        4 & Conv2d & 4x1x1 & 8x1x1 \\
+        5 & BatchNormalization & 8x1x1 & 8x1x1 \\
+        6 & Linear & 8 & 4 \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\begin{figure}[htb]
+
+\begin{table}[htb]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_resnet_mse}
     \caption{ResNet構造}
-    \label{fig:result1:1:resnet}
-\end{figure}
+    \label{tab:model:parameter:resnet}
+    \begin{tabular}{ccccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size} & \textbf{Residual block nums}\\
+        \hline
+        1   & MS-ResNet & 1x2x2 & 4x2x2 & 2\\
+        2 & AveragePooling2d & 4x2x2 & 4x1x1 & - \\
+        3 & MS-ResNet & 4x1x1 & 8x1x1 & 2\\
+        4 & AveragePooling2d & 8x1x1 & 8x1x1 & - \\
+        5 & Linear & 8 & 4 & - \\
+        \hline
+    \end{tabular}
+\end{table}
 
 
-\clearpage
-\subsection{入力速度変化に対する内部状態変化の定性評価}
-各ネットワーク構造におけるタイムスケール$a=3.0$の場合の内部状態変化を\figref{fig:result1:2:linear} - \figref{fig:result1:2:resnet}に示す.
-本手法は, 入力スパイクのタイムスケーリングに対して, 内部状態も同様にタイムスケーリングに近似することを目指した手法である.
-そのため, 定性的には, タイムスケール$a=3.0$の入力スパイク$o_{a=3.0}(t)$が入力されたときの内部状態$v_{a=3.0}(t)$ (グラフ最下段) が, タイムスケール$a=1.0$の入力スパイク$o_{base}(t)$が入力されたときの内部状態を線形補間した$v_{base}(at)$ (グラフ3段目) に近似できていることが望ましい.
-
-まずは, Linear構造についての結果を述べる.
-上段2つのグラフは, タイムスケール$a=1.0$の場合の入力スパイク$o_{base}(t)$と, SNNの内部状態$v_{base}(t)$を表す.
-上から3段目, 4段目のグラフはそれぞれ, $o_{base}(t), v_{base}(t)$を線形補間によって時間方向にタイムスケーリングした場合の内部状態$o_{base}(at)$と, 提案手法を用いたSNNの内部状態$v_{base}(at)$を表す.
-最下段のグラフは, 3段目のタイムスケーリングされたスパイク$o_{base}(at)$が入力されたときの, 通常のSNNの内部状態$v_a^{SNN}(t)$と, 提案手法を用いたSNNの内部状態$v_a^{Proposed}(t)$を表す.
-ここで, 青色の破線が通常のSNN, 黄緑色の実線が提案手法を用いたSNNを表す.
-4段目の理想的なタイムスケーリングされた内部状態と, 5段目の実際のSNNの内部状態を比較すると, 提案手法を用いたSNNの内部状態は, 理想的な内部状態に近似できていることがわかる.
-特に, $timestep=150, 300$あたりの内部状態における活性度の変化が顕著になっている.
-通常のSNNでは内部状態がパルス状に活性化していないが, 提案手法を用いたSNNではパルス状に活性化している.
-これは, 理想的な内部状態と同様のタイミングでの活性化であり, 提案手法による内部状態のタイムスケーリングが可能であることを示唆している.
-
-次に, CNN系の構造についての結果を述べる.
-CNN系の構造では, その入力が2次元であり, 2x2の入力サイズを持つ.
-そのため, グラフはヒートマップ上に表記しており, 横軸が時間, 縦軸が入力次元を表す.
-また, グラフにおける色は, その値の大きさを表す.
-まず, 上段2つのグラフは, Linear構造と同様に, タイムスケール$a=1.0$の場合の入力スパイク$o_{base}(t)$と, SNNの内部状態$v_{base}(t)$を表す.
-また, 上から3段目, 4段目のグラフはそれぞれ, $o_{base}(t), v_{base}(t)$を線形補間によって時間方向にタイムスケーリングした場合の内部状態$o_{base}(at)$と, 提案手法を用いたSNNの内部状態$v_{base}(at)$を表す.
-さらに, 上から5段目, 6段目のグラフはそれぞれ, 3段目のタイムスケーリングされたスパイク$o_{base}(at)$が入力されたときの, 通常のSNNの内部状態$v_a^{SNN}(t)$と, 提案手法を用いたSNNの内部状態$v_a^{Proposed}(t)$を表す.
-\figref{fig:result1:2:cnn}, \figref{fig:result1:2:cnn:dropout}, \figref{fig:result1:2:resnet}より, CNN構造, CNN + Dropout構造, ResNet構造では, 提案手法の内部状態のほうが, 通常のSNNと比較して, 理想的な内部状態のヒートマップに近いことがわかる.
-これは, これらの構造において, 提案手法を用いることで, 理想的な内部状態に近似可能であることを示唆している.
-一方で, \figref{fig:result1:2:cnn:batchnormalization}より, CNN + BatchNormalization構造では, 提案手法の内部状態が理想的な内部状態のヒートマップから大きくずれていることがわかる.
-特に, $timestep$が100から300の区間において, その違いが顕著に見られる.
-理想的な内部状態$v_{base}(at)$では, その区間において, 内部状態の値が小さい時間が長い.
-一方で, 提案手法の内部状態$v_{a=3.0}^{Proposed}(t)$では, その区間において, 内部状態が断続的に大きな値を示していることがわかる.
-このことから, CNN + BatchNormalization構造では, 提案手法を用いることによる, 内部状態のタイムスケーリングが困難であることが示唆された.
-\begin{figure}[htb]
+\begin{table}[htb]
     \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_linear_volt}
-    \caption{Linear構造}
-    \label{fig:result1:2:linear}
-\end{figure}
-
-\begin{figure}[htb]
-    \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_csnn_volt}
-    \caption{CNN構造}
-    \label{fig:result1:2:cnn}
-\end{figure}
-
-\begin{figure}[htb]
-    \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_dropout_volt}
-    \caption{CNN + Dropout構造}
-    \label{fig:result1:2:cnn:dropout}
-\end{figure}
-
-\begin{figure}[htb]
-    \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_batchnrm_volt}
-    \caption{CNN + BatchNormalization構造}
-    \label{fig:result1:2:cnn:batchnormalization}
-\end{figure}
-
-\begin{figure}[htb]
-    \centering
-    \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/exp1_resnet_volt}
-    \caption{ResNet構造}
-    \label{fig:result1:2:resnet}
-\end{figure}
-
-\clearpage
+    \caption{LIFモデルのパラメータ}
+    \label{tab:model:parameter:lif}
+    \begin{tabular}{ccccc}
+        \hline
+        $\bm{dt}$& $\bm{v_{rest}}$ & $\bm{v_{th}}$ & $\bm{\tau}$ & $\bm{r}$\\
+        \hline
+        0.001   & 0.0 & 0.01 & 0.005, 0.05, 0.1 & 1 \\
+        \hline
+    \end{tabular}
+\end{table}

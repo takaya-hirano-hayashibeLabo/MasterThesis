@@ -1,79 +1,150 @@
-\section{提案手法が適用可能なネットワーク構造}
-節\ref{sec:result1}において, 様々なネットワーク構造を持つSNNに提案手法を適用し, 入力速度変化に対する内部状態の挙動を検証した.
-その結果, Linear, CNN, CNN+Dropout, ResNet構造では提案手法を用いることで, 入力スパイクのタイムスケーリングに応じて, 内部状態をタイムスケーリングに近似可能である結果となった.
-これは, SNNの1つのニューロンについて導出した内部状態タイムスケーリング条件\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}が, これらのネットワーク構造において成り立つことを示唆する.
-一方で, CNN+BatchNormalization構造では, 提案手法を用いることによる内部状態のタイムスケーリングが困難である結果が得られた.
-このような結果は, BatchNormalization層が入力に対するバイアスの付加に対応する操作を持つことが原因であると考えられる.
-BatchNormalization層は, $M$個のバッチ入力に対してバッチ内で標準化する操作を持つ.
-BatchNormalization層における入力の操作を\eqrefc{eq:batchnormalization:input:mean} - \eqrefc{eq:batchnormalization:input:output}に示す.
-\begin{equation}
-    \mu_B=\frac{1}{M}\sum_{i=1}^{M}x_i \label{eq:batchnormalization:input:mean}
-\end{equation}
-\begin{equation}
-    \sigma_B^2=\frac{1}{M}\sum_{i=1}^{M}(x_i-\mu_B)^2 \label{eq:batchnormalization:input:variance}
-\end{equation}
-\begin{equation}
-    \hat{x}_i=\frac{x_i-\mu_B}{\sqrt{\sigma_B^2+\epsilon}} \label{eq:batchnormalization:input:standardization}
-\end{equation}
-\begin{equation}
-    y_i=\gamma\hat{x}_i+\beta \label{eq:batchnormalization:input:output}
-\end{equation}
-ここで, $x$はバッチ入力, $i$はバッチ内におけるインデックスを表す.
-また, $\mu_B, \sigma_B$はそれぞれバッチ入力の平均, 分散を表す.
-BatchNormalization層では, 計算されたこれらの$\mu_B, \sigma_B$を用いて, 入力$x$の標準化を行い, その結果を$\hat{x}$とする.
-ここで, $\epsilon$は分散が非常に小さい場合でもバッチ正規化を安定させるためのパラメータである.
-その後, $\hat{x}$に対して学習可能なスケーリング係数$\gamma$とバイアス$\beta$を用いて出力$y$を得る.
-推論時には, $\mu_B, \sigma_B$は学習中に得られた全バッチの平均と分散が用いられる.
+\section{実験2: ジェスチャー分類問題における入力速度変化に対するモデル精度評価}
+提案手法をジェスチャー動画分類問題に適用し, 未学習の入力速度に対するモデル精度評価を行う.
 
-一般的にBatchNormalization層は, Linear層やConv層と活性化関数の間に配置される.
-本手法でも同様に, Conv層と提案するLIFモデルの間にBatchNormalization層を使用している.
-そのため, BatchNormalization層の出力$\bm{y}$は, LIFモデル (\eqrefc{eq:lif}) における入力シナプス電流$\bm{i}$に相当する (\eqrefc{eq:batchnormalization:lif}).
+\subsection{データセット}
+ジェスチャー動画のデータセットとして, SNNの評価で広く用いられる\cite{massa2020efficient}DVSGesture\cite{dvsgesture}を使用した.
+DVSGestureはイベントベースビジョンセンサ (DVS128 : \figref{fig:dvs128}) で記録されている.
+このセンサでは各ピクセルの輝度変化を非同期に捉え, その変化をイベント$\epsilon$として記録する (\eqrefc{eq:dvs:event}).
+\begin{equation}
+    \epsilon = (x, y, t, p) \label{eq:dvs:event}
+\end{equation}
+ここで, $(x, y)$はピクセルの座標, $t$はイベントが発生した時刻である.
+また, $p$はイベント強度を表し, ピクセルの輝度変化が正であれば1, 負であれば-1の値を持つ.
+
+イベントベースビジョンセンサによるジェスチャー記録の様子を\figref{fig:dvs:recordview}に示す.
+上段が通常のフレームベースカメラで記録したもの, 下段がイベントベースビジョンセンサで記録したものである.
+また, 黒色は値が0であることを表し, 青色, 桃色はそれぞれ$p=1, p=-1$のイベントを表す.
+イベントは時間的なピクセルの輝度変化を検出するため, ジェスチャーでは動きの多い腕周りのピクセル情報が多く記録される.
+\begin{figure}[htbp]
+    \centering
+
+    \begin{minipage}{0.3625\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec3_dvs128}
+        \caption[DVS128の外観]{DVS128\cite{dvs128fig}}
+        \label{fig:dvs128}
+    \end{minipage}
+    \hspace{0.02\textwidth}
+    \begin{minipage}{0.53746\textwidth}
+        \centering
+        \includesvg[width=1.0\textwidth, inkscapelatex=false]{Static/chap2_sec3_recordview}
+        \caption[DVSGesture記録の様子]{DVSGesture記録の様子\cite{dvsgesture}}
+        \label{fig:dvs:recordview}
+    \end{minipage}
+\end{figure}
+
+DVSGestureは11種類のクラスのジェスチャーを記録している.
+それぞれのジェスチャーのスナップショットを\figref{fig:dvs:gesture}に示す.
+\input{Chapter4/gesture_snapshot.tex}
+
+\subsection{モデルの学習}
+モデルの学習はイベントの時系列データを入力, ジェスチャーのクラスを出力とする分類問題として行う.
+ここで, 使用するデータセットのイベントの有無をスパイクとして扱うことでSNNの入力としている.
+学習させるモデルは, 通常のSNN, Parametric-SNN, 提案手法のSNNとした.
+Parametric-SNNとは, ニューラルネットワークの重みとバイアスに加えて, SNNのLIFモデルにおける時定数も学習可能としたSNNである.
+モデル構成と学習時のパラメータを\tabref{tab:exp2:model}, \tabref{tab:exp2:model:parameter:lif}, \tabref{tab:exp2:train:parameter}に示す.
+また, 学習させたそれぞれのモデル構成は統一で\tabref{tab:exp2:model}の値を用いており, その相違点はニューラルネットワークのバイアスと時定数の学習についてのみである (\tabref{tab:exp2:parameter}).
+\begin{table}[htb]
+    \centering
+    \caption{ジェスチャー分類モデル構成}
+    \label{tab:exp2:model}
+    \begin{tabular}{ccccc}
+        \hline
+        \textbf{Layer}& \textbf{Type}&\textbf{Input size} & \textbf{Output size} & \textbf{Residual block nums}\\
+        \hline
+        1   & MS-ResNet & 2x32x32 & 12x32x32 & 3\\
+        2 & AveragePooling2d & 12x32x32 & 12x16x16 & - \\
+        3 & MS-ResNet & 12x16x16 & 32x16x16 & 3\\
+        4 & AveragePooling2d & 32x16x16 & 32x8x8 & - \\
+        5 & Linear & 2048 & 512 & - \\
+        6 & Linear & 512 & 11 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[htb]
+    \centering
+    \caption{LIFモデルのパラメータ}
+    \label{tab:exp2:model:parameter:lif}
+    \begin{tabular}{ccccc}
+        \hline
+        $\bm{dt}$& $\bm{v_{rest}}$ & $\bm{v_{th}}$ & $\bm{\tau}$ & $\bm{r}$\\
+        \hline
+        0.003   & 0.0 & 0.1 & 0.006 & 1 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[htb]
+    \centering
+    \caption{モデルの学習条件}
+    \label{tab:exp2:train:parameter}
+    \begin{tabular}{cc}
+        \hline
+        学習率 $lr$ & 0.0008\\
+        バッチサイズ $batch\_size$ & 64\\
+        エポック数 $epoches$ & 800\\
+        weight decay $wd$ & 0.001\\
+        勾配クリッピング $clip\_norm$ & 1.0\\
+        optimizer & AdamW\\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[htb]
+    \centering
+    \caption{各モデルの相違点}
+    \label{tab:exp2:parameter}
+    \begin{tabular}{ccccc}
+        \hline
+         & \textbf{SNN} & \textbf{Parametric-SNN} & \textbf{提案手法}\\
+         \textbf{NNのバイアス$b$}&あり&あり&なし($=0$)\\
+         \textbf{時定数の学習$\tau$}&なし&あり&あり\\
+        \hline
+    \end{tabular}
+\end{table}
+
+学習時の損失関数を\eqrefc{eq:exp2:loss}に示す.
 \begin{align}
-    {\tau}\frac{d\bm{v}^l}{dt}&=-\left(\bm{v}^{t-1,l}-v_{rest}\right)+r\bm{i}^{t, l} \notag \\
-    &=-\left(\bm{v}^{t-1,l}-v_{rest}\right)+r\bm{y}^{t, l} \notag \\
-    &=-\left(\bm{v}^{t-1,l}-v_{rest}\right)+r\left(\gamma \frac{\bm{x}^{t,l}-\mu_B}{\sqrt{\sigma_B^2+\epsilon}} +\beta\right)
-    \label{eq:batchnormalization:lif}
+    \hat{y}_i &= \frac{1}{T} \sum_{t=1}^T o_i^t \notag \\
+    \mathcal{L}_{CE} &= -\sum_{i=1}^{11} y_i \log(\hat{y}_i) \label{eq:exp2:loss}
 \end{align}
-これを踏まえて, BatchNormalization層を用いた場合の提案手法におけるSNN内部状態の定式化を\eqrefc{eq:batchnormalization:lif:ideal}, \eqrefc{eq:batchnormalization:lif:actual}に示す.
-定式化は\ref{method:proposed}節で行った手順と同様に, 理想的なSNNの内部状態 (\eqrefc{eq:batchnormalization:lif:ideal}) と実際のSNNの内部状態 (\eqrefc{eq:batchnormalization:lif:actual}) について行う.
+ここで, $\mathcal{L}_{CE}$はクロスエントロピー損失, $y_i$はone-hotベクトル化した正解ラベルである.
+また, SNNの出力$o_i^t$は時間軸を持つため, 単位時間あたりのスパイク密度を$\hat{y}_i$とし, その値をモデルのクラス推論確率としている.
+推論時は$\hat{y}_i$が最大のクラスを推論結果とする決定的推論を行う (\eqrefc{eq:exp2:inference}).
 \begin{equation}
-    V\left(\frac{s}{a}\right) =  \frac{1}{\tau s +1}\left( 
-        \frac{a}{s} v_{rest} +rw 
-        + \frac{a}{s}r \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}} +\beta\right)   
-    \right)
-    \label{eq:batchnormalization:lif:ideal}
+\hat{y} = \mathop{\arg\max}_{i}(\hat{y}_i) \label{eq:exp2:inference}
 \end{equation}
-\begin{equation}
-    V\left(\frac{s}{a}\right) =  \frac{1}{\tau_{actual} \frac{s}{a} +1}\left( 
-        \frac{a}{s} v_{rest} +\frac{1}{a} r_{actual} w
-        + \frac{a}{s} r_{actual} \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}} +\beta\right) 
-    \right) 
-    \label{eq:batchnormalization:lif:actual}
-\end{equation}
-これより, BatchNormalization層を用いた場合の, 実際のSNNの内部状態を理想的な内部状態に近似するためには, 以下の3つの条件 (\eqrefc{eq:batchnormalization:lif:approximation:condition1} - \eqrefc{eq:batchnormalization:lif:approximation:condition3}) が成り立つ必要がある.
-\begin{equation}
-    \frac{1}{\tau_{actual} \frac{s}{a} +1} = \frac{1}{\tau s +1}  
-    \label{eq:batchnormalization:lif:approximation:condition1}
-\end{equation}
-\begin{equation}
-    \frac{1}{a} r_{actual} w  = r w  
-    \label{eq:batchnormalization:lif:approximation:condition2}
-\end{equation}
-\begin{equation}
-    \frac{a}{s} r_{actual} \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}} +\beta\right)  = \frac{a}{s} r \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}} +\beta\right)  
-    \label{eq:batchnormalization:lif:approximation:condition3}
-\end{equation}
-ここで, 提案手法である\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}を適用すると, 3つ目の条件\eqrefc{eq:batchnormalization:lif:approximation:condition3}は\eqrefc{eq:batchnormalization:lif:approximation:condition3:result}のように表される.
-\begin{equation}
-    \frac{a^2}{s} r \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}}\right)  = \frac{a}{s} r \left(-\gamma \frac{\mu_B}{\sqrt{\sigma_B^2+\epsilon}}\right)  
-    \label{eq:batchnormalization:lif:approximation:condition3:result}
-\end{equation}
-ここで, $a$は入力タイムスケールであり, $a=0$は時間の停止を意味する.
-そのため, $a=0$は扱う問題に適さない.
-また, $r, \gamma$はそれぞれLIFモデルにおける膜抵抗 (入力重み), BatchNormalization層における出力スケーリング係数 (出力重み) であり, $r=0, \gamma=0$は入出力の値が全て0になることを意味する.
-このことから, $a, r, \gamma$は0以外の実数値でなければならない.
-そのため, \eqrefc{eq:batchnormalization:lif:approximation:condition3:result}が成り立つためには, バッチ入力の平均値である$\mu_B$が0でなければならない.
-しかしながら, ニューラルネットワークの学習では, 前の層のパラメータが変化するに従って, 各層の入力の分布が変化する内部共変量シフトが発生する\cite{batchnorm}.
-そのため, 学習データの平均を0に整形した場合であっても, BatchNormalization層における入力の平均値を0にすることは困難である.
-従って, \eqrefc{eq:batchnormalization:lif:approximation:condition3:result}が成り立つことは難しいと考えられる.
-これらのことから, BatchNormalization層を持つSNNにおいては, 提案手法によるSNN内部状態のタイムスケーリングは困難であると考えられる.
+
+
+
+\subsection{評価方法}
+提案手法のジェスチャ分類問題における入力速度変化に対する頑健性を評価するために以下の2つの評価を行った.
+\begin{itemize}
+    \item 入力シーケンス全体を$a$倍速した際のモデル精度評価
+    \item 入力シーケンスの前半, 後半をそれぞれ$a_1, a_2$倍速した際のモデル精度評価
+\end{itemize}
+まず, 入力シーケンス全体の速度倍率を変更したときのモデル精度を評価した.
+速度倍率$a$は0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0の20種類の値を用いた.
+次に, 入力シーケンスを前半と後半に分割し, 途中で速度倍率を変更した.
+このデータを入力したときのモデル精度比較することで, 途中で速度が変更される場合のモデル精度を評価した.
+$a_1, a_2$はそれぞれ\tabref{tab:model:parameter:speed:change}に示す値を用いた.
+ここで, $a=1.0$は学習時の速度データである.
+
+\begin{table}[htb]
+    \centering
+    \caption{速度変更のパラメータ $a_1, a_2$}
+    \label{tab:model:parameter:speed:change}
+    \begin{tabular}{ccc}
+        \hline
+        \textbf{Case}& $a_1$ & $a_2$\\
+        \hline
+        A&1.0&3.0\\
+        B&1.0&0.2\\
+        C&3.0&0.2\\
+        D&0.2&3.0\\
+        \hline
+    \end{tabular}
+\end{table}

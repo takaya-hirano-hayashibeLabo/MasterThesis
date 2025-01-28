@@ -1,4 +1,4 @@
-\section{考察: 提案手法が適用可能なネットワーク構造}
+\section{提案手法が適用可能なネットワーク構造}
 節\ref{sec:result1}において, 様々なネットワーク構造を持つSNNに提案手法を適用し, 入力速度変化に対する内部状態の挙動を検証した.
 その結果, Linear, CNN, CNN+Dropout, ResNet構造では提案手法を用いることで, 入力スパイクのタイムスケーリングに応じて, 内部状態をタイムスケーリングに近似可能である結果となった.
 これは, SNNの1つのニューロンについて導出した内部状態タイムスケーリング条件\eqrefc{eq:approximation:condition1:result} - \eqrefc{eq:approximation:condition3:result}が, これらのネットワーク構造において成り立つことを示唆する.
